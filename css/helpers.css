@@ -16,18 +16,11 @@
    .flex.column {
      flex-direction: column;
    }
+   .flex.wrap{
+       flex-wrap: wrap;
+   }
    .clean-list {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
-
-button{
-    padding: 0;
-    border: none;
-    outline: none;
-    font: inherit;
-    color: inherit;
-    background: none
-  }
-  

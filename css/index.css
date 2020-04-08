@@ -6,9 +6,33 @@ body{
     margin: 0;
 }
 
+
+button{
+    padding: 0;
+    border: none;
+    outline: none;
+    font: inherit;
+    color: inherit;
+    background: none;
+    text-decoration: none;
+  }
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+  
+
+  /* nav bar */
+
 nav{
     background-color: rgba(12, 245, 101, 0.945);
     padding: 0px 20px;
+}
+
+.logo{
+    font-size: 2rem;
 }
 
 
@@ -17,5 +41,58 @@ nav li{
     height: 60px;
     display: flex;
     align-items: center;
+    font-size: 1rem;
+}
+
+nav li:not(:first-child){
+    margin-left: 10px;
+}
+
+/* gallery */
+.choose-image{
+    margin: 20px 30px;
+}
+
+.options{
+    min-height: 100px;
+    
+}
+
+
+.options .search{
+    border: 1px solid black;
+    border-radius: 1000px;
+    height: 4rem;
+    padding: 15px;
+}
+
+.options .search img{
+    width: 2rem;
+}
+
+.search > *:not(:first-child){
+    margin-left: 10px;
 
 }
+
+.search input{
+    border: 0;
+    font-size: 1.5rem;
+}
+
+.gallery{
+    justify-self: center;
+}
+
+.gallery img{
+    width: 100px;
+
+}
+
+
+/* canvas */
+
+#my-canvas{
+    border: 5px solid black;;
+}
+

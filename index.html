@@ -10,7 +10,7 @@
     <title>gallery</title>
 </head>
 
-<body>
+<body onload="init()">
     <nav class="main-header flex align-center space-between ">
         <div class="logo">logo</div>
         <ul class="nav-option flex clean-list">
@@ -20,21 +20,35 @@
         </ul>
     </nav>
 
-    <section class="choose-image">
-        <div class="options">
-            <div class="search">search</div>
+   <!--  <section class="choose-image flex column">
+        <div class="options flex align-center">
+            <div class="search flex justify-center align-center">
+                <div><img src="/img/style-imgs/search-icon.png" alt="search icon"></div>
+                <input type="text">
+            </div> 
             <div class="key-word">happy funny</div>
         </div>
-        <div class="gallery">
-            <div class="image">image</div>
-            <div class="image">image</div>
-            <div class="image">image</div>
+        <div class="gallery flex wrap justify-center">
+            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
+            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
+            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
+            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
+            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
+            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
+            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
+            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
+            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
+            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
+            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
+            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
+
         </div>
-    </section>
-<!-- 
-    <section class="canvas">
-        canvas
-    </section>
+    </section> -->
+
+    <div class="canvas-container">
+        <canvas id="my-canvas" height="450" width="450" ></canvas>
+    </div>
+
 
     <section class="editor">
         <div class="edit-text">edit-text</div>
@@ -53,13 +67,20 @@
                 <button class="text-size-plus">text-size-plus</button>
                 <button class="text-size-plus">text-size-minus</button>
                 <button class="text-size-plus">text-size-minus</button>
-
             </div>
         </div>
         <div class="emoji">emoji</div>
         <button class="share">share</button>
-    </section>
--->
+
+        <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+          <input name="img" id="imgData" type="hidden" />
+          <button class="btn" type="submit">Publish</button>
+          <a href="#" class="btn" onclick="downloadImg(this)" download="my-img.jpg">Download as jpeg</a>
+          <div class="share-container"></div>
+        </form>
+      
+    </section> 
+
     <footer>
         <div class="logo">logo</div>
         <div class="copy-right">copy-right</div>
@@ -67,6 +88,8 @@
 
 
     <script src="lib/hammerjs.js"></script>
+    <script src="js/memes-controller.js"></script>
+    <script src=" js/memes-service.js"></script>
 </body>
 
 </html>
