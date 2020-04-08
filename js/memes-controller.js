@@ -27,13 +27,28 @@ function resizeCanvas() {
     gCanvas.height = elContainer.offsetHeight;
 }
 
+function onTextChange(elInput, ev){
+    setText(elInput.value);
+    renderCanvas()
+}
+
+function onImageClick(id){
+    setImageById(id)
+    renderCanvas()
+}
+
+function onChangeSize(amount){
+    console.log("alive")
+    console.log(amount)
+    setFontSize(amount)
+    renderCanvas()
+}
 
 
 function renderCanvas() {
     var meme = getGMeme();
     var texts = meme.lines;
     var img = getImageById(meme.selectedImgId);
-    var placeToText = getPlaceToText();
     // drawImg(img.url)
     drawImg(img.url)
 
@@ -44,8 +59,10 @@ function renderCanvas() {
         gCanvas.height = img.height;
         img.onload = () => {
             gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height) //img,x,y,width,height
-            texts.forEach((text, idx) => {
-                drawText(text.txt, gCanvas.width * 0.1, placeToText[idx], text.fillColor, text.outlineColor, text.fontType, text.size, text.align)
+            
+            texts.forEach((text) => {
+            // TODO change x and y
+                drawText(text.txt, text.x, text.y, text.fillColor, text.outlineColor, text.fontType, text.size + "px", text.align)
             })
         }
     }
@@ -53,17 +70,17 @@ function renderCanvas() {
 
 }
 
-function getPlaceToText() {
-    var canvasHeight = gCanvas.height;
-    return {
-        0: canvasHeight * 0.1,
-        1: canvasHeight * 0.9,
-        2: canvasHeight * 0.4,
-        3: canvasHeight * 0.4,
-        4: canvasHeight * 0.4,
-        5: canvasHeight * 0.4,
-    }
-}
+// function getPlaceToText() {
+//     var canvasHeight = gCanvas.height;
+//     return[
+//         {0: canvasHeight * 0.1,
+//         1: canvasHeight * 0.9,
+//         2: canvasHeight * 0.4,
+//         3: canvasHeight * 0.4,
+//         4: canvasHeight * 0.4,
+//         5: canvasHeight * 0.4,
+//     ]
+// }
 
 // draw img from local
 function drawImg(url) {

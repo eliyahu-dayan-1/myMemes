@@ -7,7 +7,7 @@ body{
 }
 
 
-button{
+/* button{
     padding: 0;
     border: none;
     outline: none;
@@ -15,7 +15,7 @@ button{
     color: inherit;
     background: none;
     text-decoration: none;
-  }
+  } */
 
 a{
     text-decoration: none;
@@ -96,3 +96,10 @@ nav li:not(:first-child){
     border: 5px solid black;;
 }
 
+
+/* tool bar */
+
+/* .add-style  button{
+    background-color: pink;
+    border: 1px solid black;
+} */

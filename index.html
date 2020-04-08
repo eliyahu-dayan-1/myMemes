@@ -20,7 +20,7 @@
         </ul>
     </nav>
 
-   <!--  <section class="choose-image flex column">
+   <!-- <section class="choose-image flex column">
         <div class="options flex align-center">
             <div class="search flex justify-center align-center">
                 <div><img src="/img/style-imgs/search-icon.png" alt="search icon"></div>
@@ -29,19 +29,8 @@
             <div class="key-word">happy funny</div>
         </div>
         <div class="gallery flex wrap justify-center">
-            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
-            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
-            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
-            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
-            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
-            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
-            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
-            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
-            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
-            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
-            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
-            <img src="/img/meme-imgs//meme-imgs-(square)/10.jpg" alt="">
-
+            <img onclick="onImageClick(2)" src="img/meme-imgs//meme-imgs-(square)/2.jpg" alt="">
+            <img onclick="onImageClick(1)" src="img/meme-imgs//meme-imgs-(square)/1.jpg" alt="">
         </div>
     </section> -->
 
@@ -52,21 +41,29 @@
 
     <section class="editor">
         <div class="edit-text">edit-text</div>
+        <div class="outline-color">
+            <label for="memes-text"></label>
+            <input oninput="onTextChange(this, event)" type="text" id="memes-text" placeholder="your text">
+        </div>
+        <!-- <div class="outline-color">
+            <label for="outline-color">outline color</label>
+            <input oninput="onOutlineChange(this, event)" type="color" id="outline-color" class="outline-color"
+                value="#222">
+        </div> -->
         <div class="tool-bar">
-            <div class="add-text">
+            <div class="add-text flex column">
                 <button class="del-text">delete</button>
                 <button class="switch-choose">switch-choose</button>
-                <button class="add-text">add text</button>
+                <button class="add-text" onclick="onChangeSize()">add text</button>
             </div>
-            <div class="add-style">
+            <div class="add-style flex column">
                 <button class="text-color">font color</button>
                 <button class="font">font</button>
                 <button class="text-aline-right">align right</button>
                 <button class="text-aline-center">align center</button>
                 <button class="text-aline-left">align left</button>
-                <button class="text-size-plus">text-size-plus</button>
-                <button class="text-size-plus">text-size-minus</button>
-                <button class="text-size-plus">text-size-minus</button>
+                <button class="text-size-plus" onclick="onChangeSize(1)">text-size-plus</button>
+                <button class="text-size-minus" onclick="onChangeSize(-1)">text-size-minus</button>
             </div>
         </div>
         <div class="emoji">emoji</div>
