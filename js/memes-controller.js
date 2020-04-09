@@ -16,8 +16,9 @@ function init() {
     gCanvas = document.querySelector('#my-canvas')
     gCtx = gCanvas.getContext('2d')
 
+    
+    renderImg(getImgs())
     setNewLine()
-
     renderCanvas()
     renderInputLine()
 
@@ -100,7 +101,16 @@ function renderCanvas() {
         }
     }
 
+}
 
+
+function renderImg(images){
+    var elGallery = document.querySelector('.gallery');
+    images.forEach(image => {
+        var elImg =`<img class="gallery-image" onclick="onImageClick(${image.id})" src=${image.url}
+            alt="">`
+        elGallery.innerHTML += elImg
+    })
 }
 
 // draw img from local
