@@ -92,6 +92,7 @@ margin-right: 10px;
     border-radius: 1000px;
     height: 4rem;
     padding: 15px;
+    max-width: 100vh;
 }
 
 .options .search img{
@@ -109,12 +110,15 @@ margin-right: 10px;
 }
 
 .gallery{
-    justify-self: center;
+    grid-template-columns: repeat(auto-fill, 320px);
+    gap: 26px;    
 }
 
 .gallery img{
     width: 20rem;
     transition: 0.6s;
+    grid-row: span 1;
+    grid-column: span 1;
 }
 
 .gallery img:hover{
