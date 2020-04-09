@@ -7,84 +7,99 @@
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/helpers.css">
     <link rel="stylesheet" href="lib/animate.css">
+    <link rel="stylesheet" href="css/mediaQuary.css">
     <title>gallery</title>
 </head>
 
-<body onload="init()">
-    <nav class="main-header flex align-center space-between ">
-        <div class="logo">logo</div>
-        <ul class="nav-option flex clean-list">
-            <li><button>Gallery</button></li>
-            <li><button>Memes</button></li>
-            <li><a href="">About</a></li>
-        </ul>
-    </nav>
+<body onload="init()" class="bla fl fd">
 
-   <!-- <section class="choose-image flex column">
-        <div class="options flex align-center">
-            <div class="search flex justify-center align-center">
-                <div><img src="/img/style-imgs/search-icon.png" alt="search icon"></div>
-                <input type="text">
-            </div> 
-            <div class="key-word">happy funny</div>
-        </div>
-        <div class="gallery flex wrap justify-center">
-            <img onclick="onImageClick(2)" src="img/meme-imgs//meme-imgs-(square)/2.jpg" alt="">
-            <img onclick="onImageClick(1)" src="img/meme-imgs//meme-imgs-(square)/1.jpg" alt="">
-        </div>
-    </section> -->
+    <section class="screen" onclick="toggleMenu()"></section>
 
-    <div class="canvas-container">
-        <canvas id="my-canvas" height="450" width="450" ></canvas>
+    <div class="page-container flex column ">
+        <nav class="main-header flex align-center space-between ">
+            <div class="logo">logo</div>
+
+            <div class="right-nav flex space-between">
+            <button class="editor-display"  onclick="onEditorDisplayBtn(this)">Edit Canvas</button>
+
+            <ul class="main-nav flex clean-list" onclick="toggleMenu()">
+                <li><button>Gallery</button></li>
+                <li><button>Memes</button></li>
+                <li><a href="">About</a></li>
+            </ul>
+
+
+
+            <button onclick="toggleMenu()" class="btn-menu">☰</button>
+        </div>
+        </nav>
+
+        <main>
+            <section class="choose-image flex column">
+                <div class="options flex align-center">
+                    <div class="search flex justify-center align-center">
+                        <div><img src="/img/style-imgs/search-icon.png" alt="search icon"></div>
+                        <input type="text">
+                    </div>
+                    <div class="key-word">happy funny</div>
+                </div>
+                <div class="gallery flex wrap justify-center">
+                    <img onclick="onImageClick(2)" src="img/meme-imgs//meme-imgs-(square)/2.jpg" alt="">
+                    <img onclick="onImageClick(1)" src="img/meme-imgs//meme-imgs-(square)/1.jpg" alt="">
+                </div>
+            </section>
+
+            <div class="build-meme">
+                <div class="canvas-container flex align-center justify-center">
+                    <canvas id="my-canvas" height="450" width="450"></canvas>
+                </div>
+
+
+                <section class="editor flex column justify-center align-center">
+
+                    <div class="tool-bar">
+                        <div class="add-text flex column">
+                            <label for="memes-text"></label>
+                            <input oninput="onTextChange(this, event)" type="text" id="memes-text"
+                                placeholder="your text">
+                            <button class="del-text" onclick="onDelOrAddText(0)">delete</button>
+                            <button class="text-switch-up" onclick="onSwitch(-1)">switch Up</button>
+                            <button class="text-switch-down" onclick="onSwitch(1)">switch down</button>
+                            <button class="add-text" onclick="onDelOrAddText(1)">add text</button>
+                        </div>
+                        <div class="add-style flex column">
+                            <button class="text-color">font color</button>
+                            <button class="font">font</button>
+                            <button class="text-aline-right">align right</button>
+                            <button class="text-aline-center">align center</button>
+                            <button class="text-aline-left">align left</button>
+                            <button class="text-size-plus" onclick="onChangeSize(1)">text-size-plus</button>
+                            <button class="text-size-minus" onclick="onChangeSize(-1)">text-size-minus</button>
+                            <button class="text-size-minus" onclick="onTextUpDown(-1)">text up</button>
+                            <button class="text-size-minus" onclick="onTextUpDown(1)">text down</button>
+                        </div>
+                    </div>
+                    <div class="emoji">emoji</div>
+                    <button class="share">share</button>
+
+                    <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                        <input name="img" id="imgData" type="hidden" />
+                        <button class="btn" type="submit">Publish</button>
+                        <a href="#" class="btn" onclick="downloadImg(this)" download="my-img.jpg">Download as jpeg</a>
+                        <div class="share-container"></div>
+                    </form>
+                </section>
+            </div>
+        </main>
+
+        <footer class="main-footer flex align-center justify-center column">
+            <div class="logo">logo</div>
+            <div class="copy-right">copy-right Ⓒ</div>
+        </footer>
+
     </div>
-
-
-    <section class="editor">
-        <div class="edit-text">edit-text</div>
-        <div class="outline-color">
-            <label for="memes-text"></label>
-            <input oninput="onTextChange(this, event)" type="text" id="memes-text" placeholder="your text">
-        </div>
-        <!-- <div class="outline-color">
-            <label for="outline-color">outline color</label>
-            <input oninput="onOutlineChange(this, event)" type="color" id="outline-color" class="outline-color"
-                value="#222">
-        </div> -->
-        <div class="tool-bar">
-            <div class="add-text flex column">
-                <button class="del-text">delete</button>
-                <button class="switch-choose">switch-choose</button>
-                <button class="add-text" onclick="onChangeSize()">add text</button>
-            </div>
-            <div class="add-style flex column">
-                <button class="text-color">font color</button>
-                <button class="font">font</button>
-                <button class="text-aline-right">align right</button>
-                <button class="text-aline-center">align center</button>
-                <button class="text-aline-left">align left</button>
-                <button class="text-size-plus" onclick="onChangeSize(1)">text-size-plus</button>
-                <button class="text-size-minus" onclick="onChangeSize(-1)">text-size-minus</button>
-            </div>
-        </div>
-        <div class="emoji">emoji</div>
-        <button class="share">share</button>
-
-        <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
-          <input name="img" id="imgData" type="hidden" />
-          <button class="btn" type="submit">Publish</button>
-          <a href="#" class="btn" onclick="downloadImg(this)" download="my-img.jpg">Download as jpeg</a>
-          <div class="share-container"></div>
-        </form>
-      
-    </section> 
-
-    <footer>
-        <div class="logo">logo</div>
-        <div class="copy-right">copy-right</div>
-    </footer> 
-
-
     <script src="lib/hammerjs.js"></script>
+    <script src="js/upload-service.js"></script>
     <script src="js/memes-controller.js"></script>
     <script src=" js/memes-service.js"></script>
 </body>

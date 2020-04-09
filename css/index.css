@@ -7,7 +7,7 @@ body{
 }
 
 
-/* button{
+button{
     padding: 0;
     border: none;
     outline: none;
@@ -15,43 +15,71 @@ body{
     color: inherit;
     background: none;
     text-decoration: none;
-  } */
+  }
 
 a{
     text-decoration: none;
     color: black;
 }
 
-  
+
+.screen{
+    position: fixed;
+    width: 100vh;
+    height: 100vh;
+    visibility: hidden;
+}
 
   /* nav bar */
 
 nav{
     background-color: rgba(12, 245, 101, 0.945);
     padding: 0px 20px;
+    width: 100vw;
 }
 
 .logo{
-    font-size: 2rem;
+    font-size: 2.5rem;
 }
 
+nav .logo{
+    padding:  20px 0px;
+}
 
-
-nav li{
-    height: 60px;
+nav ul > *{
     display: flex;
     align-items: center;
     font-size: 1rem;
 }
 
-nav li:not(:first-child){
-    margin-left: 10px;
+nav ul > *:not(:first-child){
+    padding-left: 10px;
+    border-left: 1px solid black;
+}
+
+nav ul > *:not(:last-child){
+    padding-right: 10px;
+}
+
+.editor-display{
+ background-color: chartreuse;
+padding: 7px;
+font-size: 1.2rem;
+border-radius: 1000px;
+margin-right: 10px;
+}
+
+.btn-menu{
+    color: white;
+    display: none;
+    font-size: 1.7rem;
 }
 
 /* gallery */
 .choose-image{
     margin: 20px 30px;
 }
+
 
 .options{
     min-height: 100px;
@@ -72,7 +100,7 @@ nav li:not(:first-child){
 
 .search > *:not(:first-child){
     margin-left: 10px;
-
+    
 }
 
 .search input{
@@ -85,12 +113,55 @@ nav li:not(:first-child){
 }
 
 .gallery img{
-    width: 100px;
+    width: 20rem;
+    transition: 0.6s;
+}
 
+.gallery img:hover{
+    width: 21rem;
+    box-shadow: 0px 0px 15px -2px rgba(0,0,0,0.75);
+}
+
+.gallery > img:not(:first-child){
+
+    margin-left: 10px;
+}
+
+/* main container */
+
+main{
+    flex-grow: 1;
+    width: 100vw;
+}
+
+.page-container{
+    height: 100vh;
 }
 
 
+
+.build-open .choose-image{
+    display: none;
+}
+
+.build-meme{
+    margin: 20px 26px;
+    display: none;
+}
+
+.build-open .build-meme{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+
 /* canvas */
+.canvas-container{
+flex-basis: 2;
+}
 
 #my-canvas{
     border: 5px solid black;;
@@ -98,8 +169,25 @@ nav li:not(:first-child){
 
 
 /* tool bar */
+.editor{
+flex-basis: 1;
+}
 
-/* .add-style  button{
+.add-style  button{
     background-color: pink;
     border: 1px solid black;
-} */
+}
+
+
+/* footer */
+
+footer{
+    
+    width: 100vw;
+    height: 200px;
+    background-color: rgba(12, 245, 101, 0.945);
+}
+
+footer .logo{
+    margin-bottom: 25px;
+}

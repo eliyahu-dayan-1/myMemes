@@ -16,7 +16,10 @@ function init() {
     gCanvas = document.querySelector('#my-canvas')
     gCtx = gCanvas.getContext('2d')
 
+    setNewLine()
+
     renderCanvas()
+    renderInputLine()
 
     //     resizeCanvas()
 }
@@ -27,13 +30,15 @@ function resizeCanvas() {
     gCanvas.height = elContainer.offsetHeight;
 }
 
-function onTextChange(elInput, ev){
+function onTextChange(elInput){
     setText(elInput.value);
     renderCanvas()
 }
 
 function onImageClick(id){
     setImageById(id)
+    var elBtn = document.querySelector('.editor-display')
+    onEditorDisplayBtn(elBtn)
     renderCanvas()
 }
 
@@ -42,6 +47,30 @@ function onChangeSize(amount){
     console.log(amount)
     setFontSize(amount)
     renderCanvas()
+}
+
+function onTextUpDown(amount){
+    setTextLocation(amount)
+    renderCanvas()
+}
+
+function onSwitch(amount){
+    setTextIdx(amount)
+    renderInputLine()
+    renderCanvas()
+}
+
+function onDelOrAddText(val){
+    setDelOrAddText(val)
+    renderInputLine()
+    renderCanvas()
+}
+
+
+function renderInputLine(){
+    var currLine = getCurrLine();
+    if(currLine === undefined) return;
+    document.querySelector('#memes-text').value = currLine.txt; 
 }
 
 
@@ -70,18 +99,6 @@ function renderCanvas() {
 
 }
 
-// function getPlaceToText() {
-//     var canvasHeight = gCanvas.height;
-//     return[
-//         {0: canvasHeight * 0.1,
-//         1: canvasHeight * 0.9,
-//         2: canvasHeight * 0.4,
-//         3: canvasHeight * 0.4,
-//         4: canvasHeight * 0.4,
-//         5: canvasHeight * 0.4,
-//     ]
-// }
-
 // draw img from local
 function drawImg(url) {
     var img = new Image()
@@ -102,3 +119,27 @@ function drawText(text, x, y, fill, outLine, font, fontSize , textAlign) {
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
 }
+
+function downloadImg(elLink) {
+    var imgContent = gCanvas.toDataURL('image/jpeg');
+    elLink.href = imgContent
+}
+
+
+function toggelEditor() {
+    document.body.classList.toggle('build-open')
+}
+
+function toggleMenu() {
+    document.body.classList.toggle('menu-open')
+}
+
+function onEditorDisplayBtn(elBtn){
+    toggelEditor();
+    var bodyClassList = document.body.classList.value;
+    var isEditorOpen = bodyClassList.includes('build-open') 
+
+
+    elBtn.innerText = isEditorOpen? 'Choose Image': 'Edit Canvas';
+}
+
