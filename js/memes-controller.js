@@ -66,6 +66,10 @@ function onDelOrAddText(val){
     renderCanvas()
 }
 
+function onSaveImg(){
+    saveImg()
+}
+
 
 function renderInputLine(){
     var currLine = getCurrLine();
@@ -84,9 +88,9 @@ function renderCanvas() {
     function drawImg(url) {
         var img = new Image()
         img.src = url;
-        gCanvas.width = img.width;
-        gCanvas.height = img.height;
         img.onload = () => {
+            gCanvas.width = img.width;
+            gCanvas.height = img.height;
             gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height) //img,x,y,width,height
             
             texts.forEach((text) => {
@@ -119,6 +123,7 @@ function drawText(text, x, y, fill, outLine, font, fontSize , textAlign) {
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
 }
+
 
 function downloadImg(elLink) {
     var imgContent = gCanvas.toDataURL('image/jpeg');

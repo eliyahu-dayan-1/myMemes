@@ -1,5 +1,9 @@
 'use strict';
 
+const SAVE_MEME_KEY = 'saveMemes'
+
+var gImageUrls = []
+
 var gKeywords = { 'happy': 12, 'funny puk': 1 }
 
 var gImgs = [{ id: 1, url: 'img/meme-imgs/meme-imgs-(square)/1.jpg', keywords: ['trunp'] },
@@ -98,4 +102,20 @@ function setTextIdx(amount){
 
 function getImageById(id){
     return gImgs.find(img => img.id === id)
+}
+
+function saveImg(){
+    var imgContent = gCanvas.toDataURL('image/jpeg');
+    saveImgUrl(imgContent)
+     console.log(imgContent)
+}    
+
+function saveImgUrl(url){
+    var memesBit = loadFromStorage(SAVE_MEME_KEY);
+    console.log(memesBit)
+    if(!memesBit) saveToStorage(SAVE_MEME_KEY ,[url]);
+    else{
+        var memesBit = [...memesBit, url];
+        saveToStorage(SAVE_MEME_KEY, memesBit)
+    }
 }
