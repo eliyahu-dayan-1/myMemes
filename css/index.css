@@ -102,11 +102,13 @@ margin-right: 10px;
 
 .options .search img{
     width: 2rem;
+    margin-inline-end: 5px;
 }
 
 .search input{
     border: 0;
     font-size: 1.5rem;
+    outline: none;
 }
 
 .gallery{
@@ -134,16 +136,21 @@ main{
     height: 100vh;
 }
 
-
-
-.build-open .choose-image{
-    display: none;
-}
-
 .build-meme{
     margin: 20px 26px;
     display: none;
 }
+
+.my-memes{
+    display: none;
+}
+
+
+.build-open .choose-image, .build-open .my-memes{
+    display: none;
+}
+
+
 
 .build-open .build-meme{
     display: flex;
@@ -151,7 +158,13 @@ main{
     align-items: center;
 }
 
+.my-memes-open .choose-image, .my-memes-open .build-meme{
+    display: none;
+}
 
+.my-memes-open .my-memes{
+    display: block;
+}
 
 
 /* canvas */

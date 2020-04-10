@@ -95,12 +95,12 @@ function setCurrLineNewCorr(canvasEv){
     var newCurrX = currLine.x + canvasEv.movementX;
     var newCurrY = currLine.y + canvasEv.movementY;
 
-    console.log("before X Y", gMeme.lines[gMeme.selectedLineIdx].x, gMeme.lines[gMeme.selectedLineIdx].y)
+    // console.log("before X Y", gMeme.lines[gMeme.selectedLineIdx].x, gMeme.lines[gMeme.selectedLineIdx].y)
     
     currLine.x = newCurrX;
     currLine.y = newCurrY;
 
-    console.log("after X Y", gMeme.lines[gMeme.selectedLineIdx].x, gMeme.lines[gMeme.selectedLineIdx].y)
+    // console.log("after X Y", gMeme.lines[gMeme.selectedLineIdx].x, gMeme.lines[gMeme.selectedLineIdx].y)
 }
 
 function setTextLocation(amount){

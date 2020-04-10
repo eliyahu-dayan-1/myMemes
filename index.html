@@ -11,7 +11,7 @@
     <title>gallery</title>
 </head>
 
-<body onload="init()" class="bla fl fd">
+<body onload="init()" class="">
 
     <section class="screen" onclick="toggleMenu()"></section>
 
@@ -23,8 +23,8 @@
                 <button class="editor-display" onclick="onEditorDisplayBtn(this)">Edit Canvas</button>
 
                 <ul class="main-nav flex clean-list" onclick="toggleMenu()">
-                    <li><button>Gallery</button></li>
-                    <li><button>Memes</button></li>
+                    <li><button onclick="onGalleryClick()">Gallery</button></li>
+                    <li><button onclick="onMyMemes()">Memes</button></li>
                     <li><a href="">About</a></li>
                 </ul>
 

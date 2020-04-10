@@ -89,6 +89,15 @@ function onCanvasMouseUp(){
     gIsCklickDown = false;
 }
 
+function onMyMemes(){
+    renderBitImg(getGImageUrls());
+    document.body.classList.add('my-memes-open')
+}
+
+function onGalleryClick(){
+    document.body.classList.remove('my-memes-open')
+}
+
 function moveElement(canvasEv){
     var touchX = canvasEv.offsetX
     var touchY = canvasEv.offsetX
@@ -102,7 +111,7 @@ function moveElement(canvasEv){
     })
     if(!tuchLine) return;
     setCurrLineNewCorr(canvasEv)
-    renderCanvas
+    renderCanvas()
 }
 
 
