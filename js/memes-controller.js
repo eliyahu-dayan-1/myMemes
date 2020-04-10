@@ -17,7 +17,7 @@ function init() {
     gCtx = gCanvas.getContext('2d')
 
     
-    renderImgGallery(getImgs())
+    renderGallery(getImgs())
     renderCanvas()
     renderInputLine()
 }
@@ -90,12 +90,34 @@ function onCanvasMouseUp(){
 }
 
 function onMyMemes(){
-    renderBitImg(getGImageUrls());
+    renderBitImg(getSavedMemes());
     document.body.classList.add('my-memes-open')
 }
 
 function onGalleryClick(){
     document.body.classList.remove('my-memes-open')
+}
+
+function onEditSavedMeme(id){
+    setCurrGMeme(id)
+    renderCanvas()
+}
+
+function onDownloadSavedMeme(elLink, id){
+    var savedMemes = getSavedMemesById(id)
+    elLink.href = savedMemes.url;
+}
+
+function onEarseSavedMeme(id){
+    EarseSavedMeme(id)
+    renderBitImg(getSavedMemes());
+}
+
+function onWordClick(word){
+    setWordPop(word);
+    renderKeyWord()
+    renderImgGallery(getPicturnByKeyWord(word)
+    )
 }
 
 function moveElement(canvasEv){
@@ -142,6 +164,7 @@ function renderCanvas() {
 
 function renderImgGallery(images){
     var elGallery = document.querySelector('.choose-image .gallery');
+    elGallery.innerHTML = '';
     images.forEach(image => {
         var elImg =`<img class="gallery-image" onclick="onImageClick(${image.id})" src=${image.url}
             alt="">`   
@@ -149,12 +172,24 @@ function renderImgGallery(images){
     })
 }
 
+function renderGallery(images){
+    renderImgGallery(images)
+    renderKeyWord()
+}
+
+
 function renderBitImg(images){
     var elGallery = document.querySelector('.my-memes');
     elGallery.innerHTML = '';
     images.forEach(image => {
-        var elImg =`<img class="my-meme-image" src=${image.url}
-            alt="">`;
+        var elImg =`<div><img class="my-meme-image" src=${image.url}
+            alt="">
+            <button onclick="onEditSavedMeme(${image.id})" class="memes-edit">🖍</button>
+            <a href="#" class="memes-download" onclick="onDownloadSavedMeme(this, ${image.id})" download="my-img.jpg" >⬇</a>
+            <button onclick="onEarseSavedMeme(${image.id})" class="memes-earse">🗑</button>
+            </div>
+            `;
+  
         elGallery.innerHTML += elImg;
     })
 }
@@ -215,8 +250,14 @@ function onEditorDisplayBtn(elBtn){
     elBtn.innerText = isEditorOpen? 'Choose Image': 'Edit Canvas';
 }
 
-function renderOption(){
-    // TODO render the option of picture
+function renderKeyWord(){
+    var keyWords = getKeyWords();
+    var elKeyWords = document.querySelector('.key-words');
+    elKeyWords.innerHTML = '';
+    for (const KeyWord in keyWords) {
+        var strHtml = `<button onclick="onWordClick('${KeyWord}')" style="font-size:${(keyWords[KeyWord]*1.1) + "rem"};"}>${KeyWord}</button>`
+        elKeyWords.innerHTML += strHtml
+      }
 }
 
 function drawAroundText(){

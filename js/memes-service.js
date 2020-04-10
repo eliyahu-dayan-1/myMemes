@@ -2,29 +2,32 @@
 
 const SAVE_MEME_KEY = 'saveMemes'
 
-var gImageUrls = getGImageUrls()
+var gSavedMemes = getSavedMemes()
 
-var gKeywords = { 'happy': 12, 'funny puk': 1 }
 
 var gImgs = [{ id: 1, url: 'img/meme-imgs/meme-imgs-(square)/1.jpg', keywords: ['trump','speech'] },
-            { id: 2, url: 'img/meme-imgs/meme-imgs-(square)/2.jpg', keywords: ['dog', 'loves', 'animal'] },
-            { id: 3, url: 'img/meme-imgs/meme-imgs-(square)/3.jpg', keywords: ['sleep', 'baby', 'dog'] },
-            { id: 4, url: 'img/meme-imgs/meme-imgs-(square)/4.jpg', keywords: ['sleep', 'cat', 'computer'] },
-            { id: 5, url: 'img/meme-imgs/meme-imgs-(square)/5.jpg', keywords: ['win', 'baby'] },
-            { id: 6, url: 'img/meme-imgs/meme-imgs-(square)/6.jpg', keywords: ['explain'] },
-            { id: 7, url: 'img/meme-imgs/meme-imgs-(square)/7.jpg', keywords: ['baby', 'shoke'] },
-            { id: 8, url: 'img/meme-imgs/meme-imgs-(square)/8.jpg', keywords: ['happy', 'artist'] },
-            { id: 9, url: 'img/meme-imgs/meme-imgs-(square)/9.jpg', keywords: ['laugh', 'baby'] },
-            { id: 10, url: 'img/meme-imgs/meme-imgs-(square)/10.jpg', keywords: ['laugh', 'presedent', 'obama'] },
-            { id: 11, url: 'img/meme-imgs/meme-imgs-(square)/11.jpg', keywords: ['football', 'win'] },
-            { id: 12, url: 'img/meme-imgs/meme-imgs-(square)/12.jpg', keywords: ['question'] },
-            { id: 13, url: 'img/meme-imgs/meme-imgs-(square)/13.jpg', keywords: ['life'] },
-            { id: 14, url: 'img/meme-imgs/meme-imgs-(square)/14.jpg', keywords: ['dark', 'afraid'] },
-            { id: 15, url: 'img/meme-imgs/meme-imgs-(square)/15.jpg', keywords: ['exactly', 'speech'] },
-            { id: 16, url: 'img/meme-imgs/meme-imgs-(square)/16.jpg', keywords: ['laugh'] },
-            { id: 17, url: 'img/meme-imgs/meme-imgs-(square)/17.jpg', keywords: ['putin', 'presedent'] },
-            { id: 18, url: 'img/meme-imgs/meme-imgs-(square)/18.jpg', keywords: ['baz', 'speech'] }
-        ];
+{ id: 2, url: 'img/meme-imgs/meme-imgs-(square)/2.jpg', keywords: ['dog', 'loves', 'animal'] },
+{ id: 3, url: 'img/meme-imgs/meme-imgs-(square)/3.jpg', keywords: ['sleep', 'baby', 'dog'] },
+{ id: 4, url: 'img/meme-imgs/meme-imgs-(square)/4.jpg', keywords: ['sleep', 'cat', 'computer'] },
+{ id: 5, url: 'img/meme-imgs/meme-imgs-(square)/5.jpg', keywords: ['win', 'baby'] },
+{ id: 6, url: 'img/meme-imgs/meme-imgs-(square)/6.jpg', keywords: ['explain'] },
+{ id: 7, url: 'img/meme-imgs/meme-imgs-(square)/7.jpg', keywords: ['baby', 'shoke'] },
+{ id: 8, url: 'img/meme-imgs/meme-imgs-(square)/8.jpg', keywords: ['happy', 'artist'] },
+{ id: 9, url: 'img/meme-imgs/meme-imgs-(square)/9.jpg', keywords: ['laugh', 'baby'] },
+{ id: 10, url: 'img/meme-imgs/meme-imgs-(square)/10.jpg', keywords: ['laugh', 'presedent', 'obama'] },
+{ id: 11, url: 'img/meme-imgs/meme-imgs-(square)/11.jpg', keywords: ['football', 'win'] },
+{ id: 12, url: 'img/meme-imgs/meme-imgs-(square)/12.jpg', keywords: ['question'] },
+{ id: 13, url: 'img/meme-imgs/meme-imgs-(square)/13.jpg', keywords: ['life'] },
+{ id: 14, url: 'img/meme-imgs/meme-imgs-(square)/14.jpg', keywords: ['dark', 'afraid'] },
+{ id: 15, url: 'img/meme-imgs/meme-imgs-(square)/15.jpg', keywords: ['exactly', 'speech'] },
+{ id: 16, url: 'img/meme-imgs/meme-imgs-(square)/16.jpg', keywords: ['laugh'] },
+{ id: 17, url: 'img/meme-imgs/meme-imgs-(square)/17.jpg', keywords: ['putin', 'presedent'] },
+{ id: 18, url: 'img/meme-imgs/meme-imgs-(square)/18.jpg', keywords: ['baz', 'speech'] }
+];
+
+const KEY_PICTURE_KEYWORDS = 'pictureKeywords'
+var gKeywords = createKeyWords()
+
 var gMeme = {
     selectedImgId: 1,
     selectedLineIdx: 0,
@@ -49,6 +52,30 @@ function getNewLine(){
     }
 }
 
+function createKeyWords(){
+    var existKeyWords = loadFromStorage(KEY_PICTURE_KEYWORDS) || {};
+
+    var keyWords =  gImgs.reduce((accumulator, img) =>{
+        img.keywords.map(word =>{
+            console.log(accumulator[word])
+            if(accumulator[word] === undefined) accumulator[word] = 1.2;
+        })
+        return accumulator;
+    },existKeyWords )
+
+    saveToStorage(KEY_PICTURE_KEYWORDS, keyWords);
+
+    return keyWords;
+}
+
+function getKeyWords(){
+    return gKeywords;
+}
+
+function getPicturnByKeyWord(word){
+    return gImgs.filter(img => img.keywords.includes(word))
+}
+
 function removeLine(){
     var currLineIdx = gMeme.selectedLineIdx;
 
@@ -68,6 +95,11 @@ function setText(text){
 
     gMeme.lines[currImgId].txt = text
     calcRecAroundText()
+}
+
+function setWordPop(word){
+    gSavedMemes[word]++;
+    saveToStorage(KEY_PICTURE_KEYWORDS, gSavedMemes)
 }
 
 function calcRecAroundText(){
@@ -117,7 +149,28 @@ function getImgs(){
     return gImgs;
 }
 
-function getGImageUrls(){
+function getSavedMemesById(id){
+    return gSavedMemes.find(image => image.id === id)
+}
+
+function setCurrGMeme(id){
+    var savedMeme =  getSavedMemesById(id);
+    gMeme = savedMeme.obj;
+}
+
+function EarseSavedMeme(id){
+    var savedMemes =  getSavedMemes();
+    
+    savedMemes.map((meme, memeIdx) => {
+        if(meme.id === id) savedMemes.splice(memeIdx, 1);
+    });
+    gSavedMemes = savedMemes;
+    saveToStorage(SAVE_MEME_KEY, gSavedMemes)
+}
+
+
+
+function getSavedMemes(){
     var imagesUrls = loadFromStorage(SAVE_MEME_KEY);
     if(!imagesUrls || !imagesUrls.length) imagesUrls = [];
     return imagesUrls;
@@ -146,7 +199,6 @@ function setDelOrAddText(val){
 function setTextIdx(amount){
     if(amount === 1 &&  gMeme.lines.length > gMeme.selectedLineIdx) gMeme.selectedLineIdx++;
     if(amount === -1 &&  gMeme.selectedLineIdx > 0) gMeme.selectedLineIdx--;
-
 }
 
 
@@ -160,10 +212,12 @@ function saveImg(){
 }    
 
 function saveImgUrl(url){
-    var imagesUrls = getGImageUrls()
-    imagesUrls.push({url: url})
+    var imagesUrls = getSavedMemes()
+    var lastImage = imagesUrls[imagesUrls.length - 1];
+    var newId = (lastImage)? lastImage.id+1 : 0;
+    imagesUrls.push({id: newId, url: url, obj: getGMeme()})
 
-    gImageUrls = imagesUrls
+    gSavedMemes = imagesUrls
     
-    saveToStorage(SAVE_MEME_KEY , gImageUrls)
+    saveToStorage(SAVE_MEME_KEY , gSavedMemes)
 }
