@@ -35,8 +35,13 @@
         </nav>
 
         <main>
+
+            <!-- TODO modal to my memes -->
+            <div class="my-memes gallery">
+            </div>
             <section class="choose-image flex column">
                 <div class="options flex align-center">
+                    <!-- TODO searck responsive -->
                     <div class="search flex justify-center align-center">
                         <div><img src="/img/style-imgs/search-icon.png" alt="search icon"></div>
                         <input type="text">
@@ -51,12 +56,13 @@
             <div class="build-meme">
 
                 <div class="canvas-container flex align-center justify-center">
-                    <canvas id="my-canvas" height="450" width="450"></canvas>
+                    <canvas id="my-canvas" onmousedown="onCanvasMouseDown(event)" onmousemove="onCanvasMouseMove(event)" onmouseup="onCanvasMouseUp()" height="450" width="450"></canvas>
                 </div>
 
 
                 <div class="editor flex column justify-center align-center">
 
+                    <!-- TODO check tool bar is work -->
                     <div class="tool-bar">
                         <div class="add-text flex column">
                             <label for="memes-text"></label>

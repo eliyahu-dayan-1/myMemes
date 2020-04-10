@@ -17,12 +17,9 @@ function init() {
     gCtx = gCanvas.getContext('2d')
 
     
-    renderImg(getImgs())
-    setNewLine()
+    renderImgGallery(getImgs())
     renderCanvas()
     renderInputLine()
-
-    //     resizeCanvas()
 }
 
 function resizeCanvas() {
@@ -44,8 +41,7 @@ function onImageClick(id){
 }
 
 function onChangeSize(amount){
-    console.log("alive")
-    console.log(amount)
+
     setFontSize(amount)
     renderCanvas()
 }
@@ -78,6 +74,37 @@ function renderInputLine(){
     document.querySelector('#memes-text').value = currLine.txt; 
 }
 
+function onCanvasMouseDown(ev){
+    gIsCklickDown = true
+    moveElement(ev)
+};
+
+function onCanvasMouseMove(ev){
+    if(gIsCklickDown){
+         moveElement(ev);
+    }
+};
+
+function onCanvasMouseUp(){
+    gIsCklickDown = false;
+}
+
+function moveElement(canvasEv){
+    var touchX = canvasEv.offsetX
+    var touchY = canvasEv.offsetX
+    var lines = getGMeme().lines;
+
+    console.log('lines', lines)
+    var tuchLine = lines.find(line => {
+        var isXRange = touchX >= line.leftCorX && touchX <= line.rightCorX;
+        var isYRange = touchY >= line.leftCorY && touchY <= line.y;
+        return isXRange && isYRange;
+    })
+    if(!tuchLine) return;
+    setCurrLineNewCorr(canvasEv)
+    renderCanvas
+}
+
 
 function renderCanvas() {
     var meme = getGMeme();
@@ -97,19 +124,29 @@ function renderCanvas() {
             texts.forEach((text) => {
             // TODO change x and y
                 drawText(text.txt, text.x, text.y, text.fillColor, text.outlineColor, text.fontType, text.size + "px", text.align)
+                drawAroundText()
             })
         }
     }
 
 }
 
-
-function renderImg(images){
-    var elGallery = document.querySelector('.gallery');
+function renderImgGallery(images){
+    var elGallery = document.querySelector('.choose-image .gallery');
     images.forEach(image => {
         var elImg =`<img class="gallery-image" onclick="onImageClick(${image.id})" src=${image.url}
-            alt="">`
-        elGallery.innerHTML += elImg
+            alt="">`   
+        elGallery.innerHTML += elImg;
+    })
+}
+
+function renderBitImg(images){
+    var elGallery = document.querySelector('.my-memes');
+    elGallery.innerHTML = '';
+    images.forEach(image => {
+        var elImg =`<img class="my-meme-image" src=${image.url}
+            alt="">`;
+        elGallery.innerHTML += elImg;
     })
 }
 
@@ -132,7 +169,19 @@ function drawText(text, x, y, fill, outLine, font, fontSize , textAlign) {
     gCtx.textAlign = textAlign;
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
+
 }
+
+function drawRect(x, y, width, height) {
+    gCtx.beginPath()
+    gCtx.strokeStyle = 'black'
+    gCtx.rect(x, y, width, height)
+    gCtx.stroke()
+    // gCtx.fillStyle = 'orange'
+    // gCtx.fillRect(x, y, width, height)
+    gCtx.closePath()
+}
+
 
 
 function downloadImg(elLink) {
@@ -152,9 +201,17 @@ function toggleMenu() {
 function onEditorDisplayBtn(elBtn){
     toggelEditor();
     var bodyClassList = document.body.classList.value;
-    var isEditorOpen = bodyClassList.includes('build-open') 
-
+    var isEditorOpen = bodyClassList.includes('build-open');
 
     elBtn.innerText = isEditorOpen? 'Choose Image': 'Edit Canvas';
 }
 
+function renderOption(){
+    // TODO render the option of picture
+}
+
+function drawAroundText(){
+    // TODO draw rect aroune texts
+    var currLine = getCurrLine();
+    drawRect(currLine.LeftCorX, currLine.LeftCorY, currLine.width + 10, currLine.height + 10)
+}

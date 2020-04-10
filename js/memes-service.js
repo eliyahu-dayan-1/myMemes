@@ -2,7 +2,7 @@
 
 const SAVE_MEME_KEY = 'saveMemes'
 
-var gImageUrls = []
+var gImageUrls = getGImageUrls()
 
 var gKeywords = { 'happy': 12, 'funny puk': 1 }
 
@@ -23,14 +23,12 @@ var gImgs = [{ id: 1, url: 'img/meme-imgs/meme-imgs-(square)/1.jpg', keywords: [
             { id: 15, url: 'img/meme-imgs/meme-imgs-(square)/15.jpg', keywords: ['exactly', 'speech'] },
             { id: 16, url: 'img/meme-imgs/meme-imgs-(square)/16.jpg', keywords: ['laugh'] },
             { id: 17, url: 'img/meme-imgs/meme-imgs-(square)/17.jpg', keywords: ['putin', 'presedent'] },
-            { id: 18, url: 'img/meme-imgs/meme-imgs-(square)/18.jpg', keywords: ['baz', 'speech'] }];
-    
-    
+            { id: 18, url: 'img/meme-imgs/meme-imgs-(square)/18.jpg', keywords: ['baz', 'speech'] }
+        ];
 var gMeme = {
     selectedImgId: 1,
     selectedLineIdx: 0,
     lines: [
-        getNewLine()
         ]     
 } 
 
@@ -44,7 +42,6 @@ function setNewLine(){
 }
 
 function getNewLine(){
-    console.log(gCanvas)
     var yCord = gCanvas ? gCanvas.width/2 : 0;
     var xCord = gCanvas ? gCanvas.height/2 : 0;
     return {
@@ -62,14 +59,48 @@ function removeLine(){
 }
 
 function setText(text){
-    var currImgId = gMeme.selectedImgId;
-    if(!gMeme.lines[currImgId]) return;
+    var currImgId = gMeme.selectedLineIdx;
+
+    if(!gMeme.lines[currImgId]){
+        addLine()
+        return
+    };
 
     gMeme.lines[currImgId].txt = text
+    calcRecAroundText()
+}
+
+function calcRecAroundText(){
+    var currLineIdx = gMeme.selectedLineIdx;
+    var currLine = gMeme.lines[currLineIdx]
+
+    var textWidth = gCtx.measureText(currLine.txt).width;
+    var textHeight = currLine.size;
+
+    currLine['height'] = textHeight;
+    currLine['width'] = textWidth;
+    currLine['leftCorX']= currLine.x - (currLine.width/2);
+    currLine['rightCorX']= currLine.x + (currLine.width/2);
+    currLine['leftCorY'] = currLine.y - (currLine.height);
 }
 
 function setImageById(id){
     gMeme.selectedImgId = id
+}
+
+// TODO underStand what the problemo
+function setCurrLineNewCorr(canvasEv){    
+    var currLine = gMeme.lines[gMeme.selectedLineIdx];
+
+    var newCurrX = currLine.x + canvasEv.movementX;
+    var newCurrY = currLine.y + canvasEv.movementY;
+
+    console.log("before X Y", gMeme.lines[gMeme.selectedLineIdx].x, gMeme.lines[gMeme.selectedLineIdx].y)
+    
+    currLine.x = newCurrX;
+    currLine.y = newCurrY;
+
+    console.log("after X Y", gMeme.lines[gMeme.selectedLineIdx].x, gMeme.lines[gMeme.selectedLineIdx].y)
 }
 
 function setTextLocation(amount){
@@ -79,14 +110,17 @@ function setTextLocation(amount){
     var yCordinate = gMeme.lines[currImgId].y;
     if(amount === 1 &&  gCanvas.height > yCordinate) gMeme.lines[gMeme.selectedLineIdx].y++;
     if(amount === -1 &&  yCordinate > 0) gMeme.lines[gMeme.selectedLineIdx].y--;
-    console.log(yCordinate)
-    console.log(gCanvas.height)
-    console.log(amount)
 
 }
 
 function getImgs(){
     return gImgs;
+}
+
+function getGImageUrls(){
+    var imagesUrls = loadFromStorage(SAVE_MEME_KEY);
+    if(!imagesUrls || !imagesUrls.length) imagesUrls = [];
+    return imagesUrls;
 }
 
 function getGMeme() {
@@ -100,7 +134,7 @@ function getCurrLine(){
 function setFontSize(amount){
     var currImgId = gMeme.selectedImgId;
     if(!gMeme.lines[currImgId]) return;
-    console.log(gMeme.lines[currImgId])
+
     gMeme.lines[currImgId].size += amount
 }
 
@@ -113,8 +147,6 @@ function setTextIdx(amount){
     if(amount === 1 &&  gMeme.lines.length > gMeme.selectedLineIdx) gMeme.selectedLineIdx++;
     if(amount === -1 &&  gMeme.selectedLineIdx > 0) gMeme.selectedLineIdx--;
 
-    console.log(amount)
-    console.log(gMeme.selectedLineIdx)
 }
 
 
@@ -125,15 +157,13 @@ function getImageById(id){
 function saveImg(){
     var imgContent = gCanvas.toDataURL('image/jpeg');
     saveImgUrl(imgContent)
-     console.log(imgContent)
 }    
 
 function saveImgUrl(url){
-    var memesBit = loadFromStorage(SAVE_MEME_KEY);
-    console.log(memesBit)
-    if(!memesBit) saveToStorage(SAVE_MEME_KEY ,[url]);
-    else{
-        var memesBit = [...memesBit, url];
-        saveToStorage(SAVE_MEME_KEY, memesBit)
-    }
+    var imagesUrls = getGImageUrls()
+    imagesUrls.push({url: url})
+
+    gImageUrls = imagesUrls
+    
+    saveToStorage(SAVE_MEME_KEY , gImageUrls)
 }
