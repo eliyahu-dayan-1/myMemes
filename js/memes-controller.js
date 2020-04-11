@@ -12,14 +12,18 @@ var gCurrLocation = {
     clickXY: {},
 }
 
-function init() {
-    gCanvas = document.querySelector('#my-canvas')
-    gCtx = gCanvas.getContext('2d')
+var gElContainer;
 
-    
+function init() {
+    gCanvas = document.querySelector('#my-canvas');
+    gCtx = gCanvas.getContext('2d');
+
+    gElContainer = document.querySelector('.canvas-container');
     renderGallery(getImgs())
     renderCanvas()
-    renderInputLine()
+    window.addEventListener('resize', function(event){
+        renderCanvas()
+    });
 }
 
 function resizeCanvas() {
@@ -28,170 +32,238 @@ function resizeCanvas() {
     gCanvas.height = elContainer.offsetHeight;
 }
 
-function onTextChange(elInput){
+function onKeyPress(ev){
+    // TODO on presskey
+    // console.log(ev)
+    // document.querySelector('#memes-text').value += ev.key;
+}
+
+function onTextChange(elInput) {
     setText(elInput.value);
     renderCanvas()
 }
 
-function onImageClick(id){
+function onImageClick(id) {
     setImageById(id)
-    var elBtn = document.querySelector('.editor-display')
-    onEditorDisplayBtn(elBtn)
+    onEditorDisplayBtn()
     renderCanvas()
 }
 
-function onChangeSize(amount){
-
-    setFontSize(amount)
+function onChangeSize(amount) {
+    changeFontSize(amount)
     renderCanvas()
 }
 
-function onTextUpDown(amount){
-    setTextLocation(amount)
+function onChangeFillColor(color) {
+    setFillColor(color)
     renderCanvas()
 }
 
-function onSwitch(amount){
-    setTextIdx(amount)
-    renderInputLine()
+function onChangeOutlineColor(color) {
+    setOutlineColor(color)
     renderCanvas()
 }
 
-function onDelOrAddText(val){
+function onChangeFont(elSelect) {
+    setFontType(elSelect.value)
+    renderCanvas()
+}
+
+function onTextUpDown(amount) {
+    changeTextLocation(amount)
+    renderCanvas()
+}
+
+function onSwitch(amount) {
+    changeTextfocus(amount)
+    renderCanvas()
+}
+
+function onDelOrAddText(val) {
     setDelOrAddText(val)
-    renderInputLine()
     renderCanvas()
 }
 
-function onSaveImg(){
+function onSaveImg() {
     saveImg()
 }
 
-
-function renderInputLine(){
-    var currLine = getCurrLine();
-    if(currLine === undefined) return;
-    document.querySelector('#memes-text').value = currLine.txt; 
-}
-
-function onCanvasMouseDown(ev){
-    gIsCklickDown = true
+function onCanvasMouseDown(ev) {
+    gIsCklickDown = true;
     moveElement(ev)
-};
-
-function onCanvasMouseMove(ev){
-    if(gIsCklickDown){
-         moveElement(ev);
-    }
-};
-
-function onCanvasMouseUp(){
-    gIsCklickDown = false;
+    // console.log(gIsCklickDown)
 }
 
-function onMyMemes(){
+function onCanvasMouseMove(ev) {
+    if (gIsCklickDown) {
+        moveElement(ev);
+        // console.log(gIsCklickDown)
+    }
+}
+
+function onCanvasMouseUp() {
+    gIsCklickDown = false;
+    // console.log(gIsCklickDown)
+}
+
+function onMyMemes() {
     renderBitImg(getSavedMemes());
     document.body.classList.add('my-memes-open')
 }
 
-function onGalleryClick(){
+function onGalleryClick() {
     document.body.classList.remove('my-memes-open')
 }
 
-function onEditSavedMeme(id){
+function onEditSavedMeme(id) {
     setCurrGMeme(id)
     renderCanvas()
 }
 
-function onDownloadSavedMeme(elLink, id){
+function onDownloadSavedMeme(elLink, id) {
     var savedMemes = getSavedMemesById(id)
     elLink.href = savedMemes.url;
 }
 
-function onEarseSavedMeme(id){
-    EarseSavedMeme(id)
+function onEarseSavedMeme(id) {
+    earseSavedMeme(id)
     renderBitImg(getSavedMemes());
 }
 
-function onWordClick(word){
-    setWordPop(word);
-    renderKeyWord()
+function onWordClick(word) {
+    setPopularWord(word);
+    renderKeyWord(getWordsByKeyword(word))
     renderImgGallery(getPicturnByKeyWord(word)
     )
 }
 
-function moveElement(canvasEv){
-    var touchX = canvasEv.offsetX
-    var touchY = canvasEv.offsetX
-    var lines = getGMeme().lines;
+function drawAroundText() {
+    // draw rect around texts
+    var currLine = getCurrLine();
+    if (!currLine) return;
+    drawRect(currLine.leftCorX, currLine.topCorY, currLine.width + 10, currLine.height + 10)
+}
 
-    console.log('lines', lines)
-    var tuchLine = lines.find(line => {
+function onEditorDisplayBtn() {
+    toggelEditor();
+    var bodyClassList = document.body.classList.value;
+    var isEditorOpen = bodyClassList.includes('build-open');
+}
+
+// TODO move element
+function moveElement(canvasEv) {
+    var touchX = canvasEv.offsetX
+    var touchY = canvasEv.offsetY
+    var lines = getGMeme().lines;
+    var touchLineIndex;
+
+    var tuchLine = lines.find((line, idx) => {
         var isXRange = touchX >= line.leftCorX && touchX <= line.rightCorX;
-        var isYRange = touchY >= line.leftCorY && touchY <= line.y;
+        var isYRange = touchY >= line.topCorY && touchY <= line.y;
+        touchLineIndex = idx;
         return isXRange && isYRange;
     })
-    if(!tuchLine) return;
-    setCurrLineNewCorr(canvasEv)
+    if (!tuchLine) return;
+    setCurrLineNewCorr(canvasEv, touchLineIndex)
     renderCanvas()
 }
 
+function renderInputLine() {
+    var currLine = getCurrLine();
+    if (currLine === undefined) return;
+    document.querySelector('#memes-text').value = currLine.txt;
+}
 
 function renderCanvas() {
     var meme = getGMeme();
     var texts = meme.lines;
     var img = getImageById(meme.selectedImgId);
-    // drawImg(img.url)
+
     drawImg(img.url)
+    renderToolBarOption()
+    renderInputLine()
 
     function drawImg(url) {
         var img = new Image()
         img.src = url;
         img.onload = () => {
-            gCanvas.width = img.width;
-            gCanvas.height = img.height;
-            gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height) //img,x,y,width,height
             
+            var widthImg = img.width;
+            var heightImg = img.height;
+            var widthContainer = gElContainer.offsetWidth; 
+
+            if(widthImg + 20 > widthContainer){
+                widthImg = widthContainer - 40
+                heightImg = widthImg * (heightImg/ img.width)    
+            } 
+
+            gCanvas.width = widthImg;
+            gCanvas.height = heightImg;
+
+            
+            gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height) //img,x,y,width,height
+
             texts.forEach((text) => {
-            // TODO change x and y
+                // TODO change x and y
                 drawText(text.txt, text.x, text.y, text.fillColor, text.outlineColor, text.fontType, text.size + "px", text.align)
-                drawAroundText()
             })
+            drawAroundText()
         }
     }
-
 }
 
-function renderImgGallery(images){
+function renderImgGallery(images) {
     var elGallery = document.querySelector('.choose-image .gallery');
     elGallery.innerHTML = '';
     images.forEach(image => {
-        var elImg =`<img class="gallery-image" onclick="onImageClick(${image.id})" src=${image.url}
-            alt="">`   
+        var elImg = `<img class="gallery-image" onclick="onImageClick(${image.id})" src=${image.url}
+            alt="">`
         elGallery.innerHTML += elImg;
     })
 }
 
-function renderGallery(images){
+function renderGallery(images) {
     renderImgGallery(images)
     renderKeyWord()
 }
 
 
-function renderBitImg(images){
+function renderBitImg(images) {
     var elGallery = document.querySelector('.my-memes');
     elGallery.innerHTML = '';
     images.forEach(image => {
-        var elImg =`<div><img class="my-meme-image" src=${image.url}
-            alt="">
-            <button onclick="onEditSavedMeme(${image.id})" class="memes-edit">🖍</button>
-            <a href="#" class="memes-download" onclick="onDownloadSavedMeme(this, ${image.id})" download="my-img.jpg" >⬇</a>
+        var elImg = `<div><img class="my-meme-image" src=${image.url}
+        alt="">
+        <button onclick="onEditSavedMeme(${image.id})" class="memes-edit">🖍</button>
+        <a href="#" class="memes-download" onclick="onDownloadSavedMeme(this, ${image.id})" download="my-img.jpg" >⬇</a>
             <button onclick="onEarseSavedMeme(${image.id})" class="memes-earse">🗑</button>
             </div>
             `;
-  
+
         elGallery.innerHTML += elImg;
     })
+}
+
+function renderKeyWord(keyWords = getKeyWords()) {
+    var elKeyWords = document.querySelector('.key-words');
+    elKeyWords.innerHTML = `<button onclick="onWordClick('all')" style="font-size: 2rem; color: grey; text-weight: 900;"}>All</button>`;
+    for (const KeyWord in keyWords) {
+        var strHtml = `<button onclick="onWordClick('${KeyWord}')" style="font-size:${(keyWords[KeyWord]) + "rem"};"}>${KeyWord}</button>`
+        elKeyWords.innerHTML += strHtml
+    }
+}
+
+function renderToolBarOption(){
+    var currLine = getCurrLine();
+    if(!currLine) return;
+    var elOutline = document.querySelector('#text-outline')
+    var elfillText = document.querySelector('#text-fill')
+    var elSelect = document.querySelector('.change-font')
+
+
+    elOutline.value = currLine.outlineColor;
+    elfillText.value = currLine.fillColor;
+    elSelect.value = currLine.fontType;
 }
 
 // draw img from local
@@ -205,11 +277,11 @@ function drawImg(url) {
     }
 }
 
-function drawText(text, x, y, fill, outLine, font, fontSize , textAlign) {
+function drawText(text, x, y, fill, outLine, font, fontSize, textAlign) {
     gCtx.lineWidth = '2';
     gCtx.strokeStyle = outLine;
     gCtx.fillStyle = fill;
-    gCtx.font =  fontSize + " " + font 
+    gCtx.font = fontSize + " " + font
     gCtx.textAlign = textAlign;
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
@@ -218,11 +290,12 @@ function drawText(text, x, y, fill, outLine, font, fontSize , textAlign) {
 
 function drawRect(x, y, width, height) {
     gCtx.beginPath()
-    gCtx.strokeStyle = 'black'
-    gCtx.rect(x, y, width, height)
+    // gCtx.lineWidth = '2';
+    // gCtx.strokeStyle = 'white'
+    // gCtx.rect(x, y, width, height)
     gCtx.stroke()
-    // gCtx.fillStyle = 'orange'
-    // gCtx.fillRect(x, y, width, height)
+    gCtx.fillStyle = 'rgba(209, 197, 197, 0.418)'
+    gCtx.fillRect(x, y, width, height)
     gCtx.closePath()
 }
 
@@ -242,26 +315,22 @@ function toggleMenu() {
     document.body.classList.toggle('menu-open')
 }
 
-function onEditorDisplayBtn(elBtn){
-    toggelEditor();
-    var bodyClassList = document.body.classList.value;
-    var isEditorOpen = bodyClassList.includes('build-open');
-
-    elBtn.innerText = isEditorOpen? 'Choose Image': 'Edit Canvas';
+// The next 2 functions handle IMAGE UPLOADING to img tag from file system: 
+// to do handle this
+function onImgInput(ev) {
+    loadImageFromInput(ev, renderCanvas)
 }
 
-function renderKeyWord(){
-    var keyWords = getKeyWords();
-    var elKeyWords = document.querySelector('.key-words');
-    elKeyWords.innerHTML = '';
-    for (const KeyWord in keyWords) {
-        var strHtml = `<button onclick="onWordClick('${KeyWord}')" style="font-size:${(keyWords[KeyWord]*1.1) + "rem"};"}>${KeyWord}</button>`
-        elKeyWords.innerHTML += strHtml
-      }
+function loadImageFromInput(ev, onImageReady) {
+    var reader = new FileReader();
+
+    reader.onload = function (event) {
+        debugger
+        var img = new Image();
+        img.onload = onImageReady.bind(null)
+        img.src = event.target.result;
+        setGMemeImage(event.target.result)
+    }
+    reader.readAsDataURL(ev.target.files[0]);
 }
 
-function drawAroundText(){
-    // TODO draw rect aroune texts
-    var currLine = getCurrLine();
-    drawRect(currLine.LeftCorX, currLine.LeftCorY, currLine.width + 10, currLine.height + 10)
-}

@@ -5,7 +5,7 @@ const SAVE_MEME_KEY = 'saveMemes'
 var gSavedMemes = getSavedMemes()
 
 
-var gImgs = [{ id: 1, url: 'img/meme-imgs/meme-imgs-(square)/1.jpg', keywords: ['trump','speech'] },
+var gImgs = [{ id: 1, url: 'img/meme-imgs/meme-imgs-(square)/1.jpg', keywords: ['trump', 'speech'] },
 { id: 2, url: 'img/meme-imgs/meme-imgs-(square)/2.jpg', keywords: ['dog', 'loves', 'animal'] },
 { id: 3, url: 'img/meme-imgs/meme-imgs-(square)/3.jpg', keywords: ['sleep', 'baby', 'dog'] },
 { id: 4, url: 'img/meme-imgs/meme-imgs-(square)/4.jpg', keywords: ['sleep', 'cat', 'computer'] },
@@ -22,73 +22,143 @@ var gImgs = [{ id: 1, url: 'img/meme-imgs/meme-imgs-(square)/1.jpg', keywords: [
 { id: 15, url: 'img/meme-imgs/meme-imgs-(square)/15.jpg', keywords: ['exactly', 'speech'] },
 { id: 16, url: 'img/meme-imgs/meme-imgs-(square)/16.jpg', keywords: ['laugh'] },
 { id: 17, url: 'img/meme-imgs/meme-imgs-(square)/17.jpg', keywords: ['putin', 'presedent'] },
-{ id: 18, url: 'img/meme-imgs/meme-imgs-(square)/18.jpg', keywords: ['baz', 'speech'] }
+{ id: 18, url: 'img/meme-imgs/meme-imgs-(square)/18.jpg', keywords: ['baz', 'speech'] },
+{ id: 19, url: 'img/meme-imgs/meme-imgs-(various)/2.jpg', keywords: ['dance', 'glad'] },
+{ id: 20, url: 'img/meme-imgs/meme-imgs-(various)/003.jpg', keywords: ['trump', 'speech'] },
+{ id: 21, url: 'img/meme-imgs/meme-imgs-(various)/004.jpg', keywords: ['dog', 'animal'] },
 ];
 
 const KEY_PICTURE_KEYWORDS = 'pictureKeywords'
+
 var gKeywords = createKeyWords()
 
 var gMeme = {
     selectedImgId: 1,
     selectedLineIdx: 0,
     lines: [
-        ]     
-} 
+    ]
+}
 
-function addLine(){
+var gUserPerfer = {
+    outlineColor: '#cd0000', 
+    fillColor: '#FFFFFF', 
+    fontType: 'impact',
+};
+
+function addLine() {
     gMeme.lines.push(getNewLine())
     gMeme.selectedLineIdx = gMeme.lines.length - 1
 }
 
-function setNewLine(){
-    addLine()
-}
 
-function getNewLine(){
-    var yCord = gCanvas ? gCanvas.width/2 : 0;
-    var xCord = gCanvas ? gCanvas.height/2 : 0;
-    return {
-        txt: '', size: 50, align: 'center', outlineColor: 'red', fillColor: 'white', x: xCord , y: yCord, fontType: 'Impact'
-    }
-}
-
-function createKeyWords(){
+function createKeyWords() {
     var existKeyWords = loadFromStorage(KEY_PICTURE_KEYWORDS) || {};
 
-    var keyWords =  gImgs.reduce((accumulator, img) =>{
-        img.keywords.map(word =>{
-            console.log(accumulator[word])
-            if(accumulator[word] === undefined) accumulator[word] = 1.2;
+    var keyWords = gImgs.reduce((accumulator, img) => {
+        img.keywords.map(word => {
+            if (accumulator[word] === undefined) accumulator[word] = 1.2;
         })
         return accumulator;
-    },existKeyWords )
+    }, existKeyWords)
 
     saveToStorage(KEY_PICTURE_KEYWORDS, keyWords);
 
     return keyWords;
 }
 
-function getKeyWords(){
+function getNewLine() {
+    var xCord = gCanvas ? gCanvas.width / 2 : 0;
+
+    var linesLength = gMeme.lines.length;
+    var yCord = (linesLength === 0)? gCanvas.height * 0.1:
+                (linesLength === 1)? gCanvas.height * 0.92 :
+                gCanvas.height/2;
+
+    return {
+        txt: '', size: 50,
+        align: 'center',
+        outlineColor: gUserPerfer.outlineColor,
+        fillColor: gUserPerfer.fillColor ,
+        x: xCord,
+        y: yCord,
+        fontType: gUserPerfer.fontType,
+        height: 50,
+        width: 10,
+        leftCorX: xCord,
+        rightCorX: xCord,
+        topCorY: yCord - 45,
+    }
+}
+
+function getKeyWords() {
     return gKeywords;
 }
 
-function getPicturnByKeyWord(word){
-    return gImgs.filter(img => img.keywords.includes(word))
+function getPicturnByKeyWord(txt) {
+    if (txt === 'all') return gImgs;
+    return gImgs.filter(img =>{
+        return img.keywords.some(word => word.includes(txt))
+    })
 }
 
-function removeLine(){
+function getWordsByKeyword(txt) {
+    if (txt === 'all') return gKeywords;
+    // txt.toUpperCase() === txt.toLowerCase()
+
+    var filterKeyWords = {}
+    for (const word in gKeywords) {
+        if (word.includes(txt)) {
+            filterKeyWords[word] = gKeywords[word];
+        }
+    }
+    // filterKeyWords['all'] = 2;
+    return filterKeyWords;
+}
+
+function getImgs() {
+    return gImgs;
+}
+
+function getSavedMemesById(id) {
+    return gSavedMemes.find(image => image.id === id)
+}
+
+function getSavedMemes() {
+    var imagesUrls = loadFromStorage(SAVE_MEME_KEY);
+    if (!imagesUrls || !imagesUrls.length) imagesUrls = [];
+    return imagesUrls;
+}
+
+function getGMeme() {
+    return gMeme;
+}
+
+function getImageById(id) {
+    return gImgs.find(img => img.id === id)
+}
+
+function getCurrLine() {
+    return gMeme.lines[gMeme.selectedLineIdx];
+}
+
+function setCurrGMeme(id) {
+    var savedMeme = getSavedMemesById(id);
+    gMeme = savedMeme.obj;
+}
+
+function removeLine() {
     var currLineIdx = gMeme.selectedLineIdx;
 
     gMeme.lines.splice(currLineIdx, 1)
     var currLineLength = gMeme.lines.length;
 
-    currLineIdx = currLineLength > currLineIdx? currLineIdx: currLineIdx - 1
+    gMeme.selectedLineIdx = (currLineLength === currLineIdx && currLineIdx) ? currLineIdx - 1 : currLineIdx;
 }
 
-function setText(text){
+function setText(text) {
     var currImgId = gMeme.selectedLineIdx;
 
-    if(!gMeme.lines[currImgId]){
+    if (!gMeme.lines[currImgId]) {
         addLine()
         return
     };
@@ -97,12 +167,87 @@ function setText(text){
     calcRecAroundText()
 }
 
-function setWordPop(word){
-    gSavedMemes[word]++;
-    saveToStorage(KEY_PICTURE_KEYWORDS, gSavedMemes)
+function setNewLine() {
+    addLine()
 }
 
-function calcRecAroundText(){
+function setPopularWord(word) {
+    if(gKeywords[word]) gKeywords[word] += 0.05;
+    saveToStorage(KEY_PICTURE_KEYWORDS, gKeywords)
+}
+
+function setImageById(id) {
+    gMeme.selectedImgId = id
+}
+
+// TODO underStand what the problemo
+function setCurrLineNewCorr(canvasEv, touchLineIdx) {
+    changeCurrLineById(touchLineIdx)
+    var currLine = getCurrLine();
+
+    var newCurrX = currLine.x + canvasEv.movementX;
+    var newCurrY = currLine.y + canvasEv.movementY;
+
+    currLine.x = newCurrX;
+    currLine.y = newCurrY;
+    calcRecAroundText()
+}
+
+function setFillColor(color){
+    gUserPerfer.fillColor = color;
+
+    var currLine = getCurrLine()
+    if(currLine) currLine.fillColor = color;
+}
+
+function setFontType(fontType){
+    gUserPerfer.fontType = fontType;
+
+    var currLine = getCurrLine()
+    if(currLine) currLine.fontType = fontType;
+}
+
+
+function setOutlineColor(color){
+    gUserPerfer.outlineColor = color;
+
+    var currLine = getCurrLine()
+    if(currLine) currLine.outlineColor = color;
+}
+
+function changeTextLocation(amount) {
+    var currImgId = gMeme.selectedImgId;
+    if (!gMeme.lines[currImgId]) return;
+
+    var yCordinate = gMeme.lines[currImgId].y;
+    if (amount === 1 && gCanvas.height > yCordinate) gMeme.lines[gMeme.selectedLineIdx].y++;
+    if (amount === -1 && yCordinate > 0) gMeme.lines[gMeme.selectedLineIdx].y--;
+}
+
+function changeFontSize(amount) {
+    var currLineId = gMeme.selectedLineIdx;
+    if (!gMeme.lines[currLineId]) return;
+
+    gMeme.lines[currLineId].size += amount
+    calcRecAroundText()
+}
+
+function setDelOrAddText(val) {
+    if (val) addLine();
+    else removeLine()
+}
+
+function changeTextfocus(amount) {
+    if (amount === 1 && gMeme.lines.length - 1 > gMeme.selectedLineIdx) gMeme.selectedLineIdx++;
+    if (amount === -1 && gMeme.selectedLineIdx > 0) gMeme.selectedLineIdx--;
+    console.log(gMeme.selectedLineIdx)
+}
+
+function changeCurrLineById(id){
+    gMeme.selectedLineIdx = id;
+}
+
+function calcRecAroundText() {
     var currLineIdx = gMeme.selectedLineIdx;
     var currLine = gMeme.lines[currLineIdx]
 
@@ -111,113 +256,33 @@ function calcRecAroundText(){
 
     currLine['height'] = textHeight;
     currLine['width'] = textWidth;
-    currLine['leftCorX']= currLine.x - (currLine.width/2);
-    currLine['rightCorX']= currLine.x + (currLine.width/2);
-    currLine['leftCorY'] = currLine.y - (currLine.height);
+    currLine['leftCorX'] = currLine.x - (currLine.width / 2);
+    currLine['rightCorX'] = currLine.x + (currLine.width / 2);
+    currLine['topCorY'] = currLine.y - (currLine.height);
 }
 
-function setImageById(id){
-    gMeme.selectedImgId = id
-}
+function earseSavedMeme(id) {
+    var savedMemes = getSavedMemes();
 
-// TODO underStand what the problemo
-function setCurrLineNewCorr(canvasEv){    
-    var currLine = gMeme.lines[gMeme.selectedLineIdx];
-
-    var newCurrX = currLine.x + canvasEv.movementX;
-    var newCurrY = currLine.y + canvasEv.movementY;
-
-    // console.log("before X Y", gMeme.lines[gMeme.selectedLineIdx].x, gMeme.lines[gMeme.selectedLineIdx].y)
-    
-    currLine.x = newCurrX;
-    currLine.y = newCurrY;
-
-    // console.log("after X Y", gMeme.lines[gMeme.selectedLineIdx].x, gMeme.lines[gMeme.selectedLineIdx].y)
-}
-
-function setTextLocation(amount){
-    var currImgId = gMeme.selectedImgId;
-    if(!gMeme.lines[currImgId]) return;
-
-    var yCordinate = gMeme.lines[currImgId].y;
-    if(amount === 1 &&  gCanvas.height > yCordinate) gMeme.lines[gMeme.selectedLineIdx].y++;
-    if(amount === -1 &&  yCordinate > 0) gMeme.lines[gMeme.selectedLineIdx].y--;
-
-}
-
-function getImgs(){
-    return gImgs;
-}
-
-function getSavedMemesById(id){
-    return gSavedMemes.find(image => image.id === id)
-}
-
-function setCurrGMeme(id){
-    var savedMeme =  getSavedMemesById(id);
-    gMeme = savedMeme.obj;
-}
-
-function EarseSavedMeme(id){
-    var savedMemes =  getSavedMemes();
-    
     savedMemes.map((meme, memeIdx) => {
-        if(meme.id === id) savedMemes.splice(memeIdx, 1);
+        if (meme.id === id) savedMemes.splice(memeIdx, 1);
     });
     gSavedMemes = savedMemes;
     saveToStorage(SAVE_MEME_KEY, gSavedMemes)
 }
 
-
-
-function getSavedMemes(){
-    var imagesUrls = loadFromStorage(SAVE_MEME_KEY);
-    if(!imagesUrls || !imagesUrls.length) imagesUrls = [];
-    return imagesUrls;
-}
-
-function getGMeme() {
-    return gMeme;
-}
-
-function getCurrLine(){
-    return  gMeme.lines[gMeme.selectedLineIdx];
-}
-
-function setFontSize(amount){
-    var currImgId = gMeme.selectedImgId;
-    if(!gMeme.lines[currImgId]) return;
-
-    gMeme.lines[currImgId].size += amount
-}
-
-function setDelOrAddText(val){
-    if(val) addLine();
-    else removeLine()
-}
-
-function setTextIdx(amount){
-    if(amount === 1 &&  gMeme.lines.length > gMeme.selectedLineIdx) gMeme.selectedLineIdx++;
-    if(amount === -1 &&  gMeme.selectedLineIdx > 0) gMeme.selectedLineIdx--;
-}
-
-
-function getImageById(id){
-    return gImgs.find(img => img.id === id)
-}
-
-function saveImg(){
+function saveImg() {
     var imgContent = gCanvas.toDataURL('image/jpeg');
     saveImgUrl(imgContent)
-}    
+}
 
-function saveImgUrl(url){
+function saveImgUrl(url) {
     var imagesUrls = getSavedMemes()
     var lastImage = imagesUrls[imagesUrls.length - 1];
-    var newId = (lastImage)? lastImage.id+1 : 0;
-    imagesUrls.push({id: newId, url: url, obj: getGMeme()})
+    var newId = (lastImage) ? lastImage.id + 1 : 0;
+    imagesUrls.push({ id: newId, url: url, obj: getGMeme() })
 
     gSavedMemes = imagesUrls
-    
-    saveToStorage(SAVE_MEME_KEY , gSavedMemes)
+
+    saveToStorage(SAVE_MEME_KEY, gSavedMemes)
 }

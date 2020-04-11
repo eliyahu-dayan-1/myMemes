@@ -22,6 +22,11 @@ a{
     color: black;
 }
 
+input{
+    border: 0;
+    background: 0;
+}
+
 
 .screen{
     position: fixed;
@@ -61,13 +66,7 @@ nav ul > *:not(:last-child){
     padding-right: 10px;
 }
 
-.editor-display{
- background-color: chartreuse;
-padding: 7px;
-font-size: 1.2rem;
-border-radius: 1000px;
-margin-right: 10px;
-}
+
 
 .btn-menu{
     color: white;
@@ -76,19 +75,26 @@ margin-right: 10px;
 }
 
 /* gallery */
-.choose-image{
-    margin: 20px 30px;
-}
-
 
 .options{
     min-height: 100px;
-    
+    margin-bottom: 15px;
 }
 
 .options > *:not(:first-child){
     margin-left: 20px;
+}
 
+.options #upload-file{
+    display: none;
+}
+
+
+.options label img{
+    background-color: white;
+    border-radius: 10px;
+    width: 50px;
+    padding: 8px;
 }
 
 
@@ -128,7 +134,7 @@ margin-right: 10px;
 .my-memes div > *:not(img) {
     position: relative;
     bottom: 26px;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     width: 23px;
 }
 
@@ -142,6 +148,9 @@ margin-right: 10px;
 main{
     flex-grow: 1;
     width: 100vw;
+    background-color: rgb(231, 231, 231);
+    padding: 20px 30px;
+
 }
 
 .page-container{
@@ -149,8 +158,8 @@ main{
 }
 
 .build-meme{
-    margin: 20px 26px;
     display: none;
+    height: 100%;
 }
 
 .my-memes{
@@ -181,35 +190,69 @@ main{
 
 /* canvas */
 .canvas-container{
-flex-basis: 2;
+    width: 50vw;
+    flex-grow: 2;
 }
 
 #my-canvas{
     border: 5px solid black;;
 }
 
+.editor{
+    flex-grow: 1;
+    height: 100%;
+    padding: 20px 0px;
+}
+
 
 /* tool bar */
-.editor{
-flex-basis: 1;
+ .editor > *:not(:last-child){
+    margin-bottom: 10px;
 }
 
-.add-style  button{
-    background-color: pink;
-    border: 1px solid black;
+.editor img, .editor input, .editor label{
+    cursor: pointer;
+} 
+
+.editor img{
+    background-color: white;
+    border-radius: 10px;
+    width: 50px;
+    padding: 8px;
 }
 
+.editor-text > *:not(:last-child){
+    margin-right: 10px;
+}
 
+input#memes-text {
+    background-color: white;
+    border-radius: 14px;
+    text-indent: 13px;
+    font-size: 1.5rem;
+    padding: 5px;
+}
+
+.emoji {
+    background-color: white;
+    text-indent: 13px;
+    font-size: 1.5rem;
+    padding: 5px;
+    width: 100%;
+}
 
 /* footer */
 
 footer{
-    
     width: 100vw;
-    height: 200px;
     background-color: rgba(12, 245, 101, 0.945);
 }
 
 footer .logo{
-    margin-bottom: 25px;
+    margin-bottom: 13px;
+    margin-top: 20px;
+}
+
+footer .copy-right{
+    margin-bottom: 20px;
 }
