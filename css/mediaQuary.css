@@ -63,6 +63,11 @@ nav ul > *:hover{
     display: block;
 }
 
+/* main */
+
+main{
+ padding:  20px 0px;
+}
 /* canves */
 
 .canvas-container{
@@ -82,10 +87,18 @@ nav ul > *:hover{
     display: grid;
     grid-template-rows: auto  20px auto 20px  auto 20px auto;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    gap: 5px;
     text-align: center;
     justify-items: center;
     align-items: center;
+}
+
+.editor img, .editor select{
+
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
 }
 
 
