@@ -40,6 +40,7 @@ function onKeyPress(ev){
 
 function onTextChange(elInput) {
     setText(elInput.value);
+    setIsOnText(true)
     renderCanvas()
 }
 
@@ -163,8 +164,13 @@ function moveElement(canvasEv) {
         touchLineIndex = idx;
         return isXRange && isYRange;
     })
-    if (!tuchLine) return;
+    if (!tuchLine){
+        setIsOnText(false)
+        renderCanvas()
+        return;
+    } 
     setCurrLineNewCorr(canvasEv, touchLineIndex)
+    setIsOnText(true)
     renderCanvas()
 }
 
@@ -207,7 +213,7 @@ function renderCanvas() {
                 // TODO change x and y
                 drawText(text.txt, text.x, text.y, text.fillColor, text.outlineColor, text.fontType, text.size + "px", text.align)
             })
-            drawAroundText()
+            if(getIsOnText()) drawAroundText()
         }
     }
 }
@@ -259,8 +265,7 @@ function renderToolBarOption(){
     var elOutline = document.querySelector('#text-outline')
     var elfillText = document.querySelector('#text-fill')
     var elSelect = document.querySelector('.change-font')
-
-
+    
     elOutline.value = currLine.outlineColor;
     elfillText.value = currLine.fillColor;
     elSelect.value = currLine.fontType;

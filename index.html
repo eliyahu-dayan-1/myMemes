@@ -11,7 +11,7 @@
     <title>gallery</title>
 </head>
 
-<body onload="init()" class="" onmouseup="onCanvasMouseUp()" onkeypress="onKeyPress(event)">
+<body onload="init()" class=""  onkeypress="onKeyPress(event)">
 
     <section class="screen" onclick="toggleMenu()"></section>
 
@@ -39,7 +39,7 @@
                 <div class="options flex align-center">
                     <!-- TODO
                         option to choose file-->
-                    <div class="flex">
+                    <div class="flex space-between part-a-search">
                         <label for="upload-file"><img src="/img/icons/upload-icon.svg" alt="save meme"></label>
                         <input class="file-input btn" type="file" id="upload-file" name="image"
                             onchange="onImgInput(event)" />
@@ -54,85 +54,75 @@
                 <div class="gallery"></div>
             </section>
 
-            <section class="build-meme flex align-center">
+            <section class="build-meme align-center">
 
                 <div class="canvas-container flex align-center justify-center">
                     <canvas id="my-canvas" onmousedown="onCanvasMouseDown(event)" onmousemove="onCanvasMouseMove(event)"
                         onmouseup="onCanvasMouseUp()" height="450" width="450"></canvas>
                 </div>
 
-                <div class="editor flex column space-between">
+                <div class="editor">
 
-                    <div class="editor-text flex row">
-                        <button class="del-text" onclick="onDelOrAddText(0)"><img src="/img/icons/trash.png"
-                                alt="delete text"></button>
 
-                        <input oninput="onTextChange(this, event)" type="text" id="memes-text" placeholder="your text">
-                        <!-- <div class="del-add-txt flex space-between align-center"></div> -->
+                    <input class="item-1" oninput="onTextChange(this, event)" type="text" id="memes-text"
+                        placeholder="your text">
 
-                        <button class="add-text" onclick="onDelOrAddText(1)"><img src="/img/icons/add.png"
-                                alt="add new text"></button>
-                        <!-- </div> -->
+                    <button class="del-text item-2" onclick="onDelOrAddText(0)"><img src="/img/icons/trash.png"
+                            alt="delete text"></button>
+
+                    <button class="add-text item-3" onclick="onDelOrAddText(1)"><img src="/img/icons/add.png"
+                            alt="add new text"></button>
+                    <!-- </div> -->
+
+                    <div class="emoji item-4">emoji</div>
+
+                    <!-- <div class="add-style flex space-between"> -->
+
+                    <div class=" item-5 change-outline-txt flex column">
+                        <label for="text-outline"><img src="/img/icons/change-outline-color-icon.png"
+                                alt="change outline txt">
+                        </label>
+                        <input onchange="onChangeOutlineColor(this.value)" type="color" id="text-outline" value="
+                            #cd0000">
                     </div>
 
-                    <div class="emoji">emoji</div>
-
-                    <div class="add-style flex space-between">
-
-                        <div class="change-outline-txt flex column">
-                            <label for="text-outline"><img src="/img/icons/change-outline-color-icon.png"
-                                    alt="change outline txt">
-                            </label>
-                            <input onchange="onChangeOutlineColor(this.value)" type="color" id="text-outline"
-                                value="#cd0000">
-                        </div>
-
-                        <div class="change-fill-txt flex column">
-                            <label for="text-fill"><img src="/img/icons/change-color-icon.png" alt="change inner text">
-                            </label>
-                            <input onchange="onChangeFillColor(this.value)" type="color" id="text-fill" value="#FFFFFF">
-                        </div>
-
-                        <button class="change-image" onclick="onEditorDisplayBtn(this)"><img
-                                src="/img/icons/change-image.png" alt="change image"></button>
-
-
-
-                        <select class="change-font" onchange="onChangeFont(this)">
-                            <option value="impact">Impact</option>
-                            <option value="david">David</option>
-                            <option value="ariel">Ariel</option>
-                            <option value="hibo">Hibo</option>
-                        </select>
-
-                        <!-- <button class="text-aline-right">align right</button>
-                            <button class="text-aline-center">align center</button>
-                            <button class="text-aline-left">align left</button> -->
-                        <button class="text-size-plus" onclick="onChangeSize(1)"><img
-                                src="/img/icons/increase-font-icon.png" alt="increase font"></button>
-                        <button class="text-size-minus" onclick="onChangeSize(-1)"><img
-                                src="/img/icons/decrease-font-fon.png" alt="decrease-font"></button>
-                        <!-- <button class="text-down" onclick="onTextUpDown(-1)">text up</button>
-                            <button class="text-up" onclick="onTextUpDown(1)">text down</button> -->
+                    <div class="item-6 change-fill-txt flex column">
+                        <label for="text-fill"><img src="/img/icons/change-color-icon.png" alt="change inner text">
+                        </label>
+                        <input onchange="onChangeFillColor(this.value)" type="color" id="text-fill" value="#FFFFFF">
                     </div>
+                    <!-- <div class="item-7 flex space-between"> -->
+                    <button class="item-7 change-image" onclick="onEditorDisplayBtn(this)">
+                        <img src="/img/icons/change-image.png" alt="change image"></button>
 
-                    <div class="done-option flex space-between align-center">
-                        <button class="save" onclick="onSaveImg()"><img src="/img/icons/save-icon.png"
-                                alt="save meme"></button>
+                    <select class="item-8 change-font" onchange="onChangeFont(this)">
+                        <option value="impact">Impact</option>
+                        <option value="david">David</option>
+                        <option value="ariel">Ariel</option>
+                        <option value="hibo">Hibo</option>
+                    </select>
+                    <!-- </div> -->
 
-                        <a href="#" class="btn" onclick="downloadImg(this)" download="my-img.jpg"><img
-                                src="/img/icons/download-icon.png" alt="save meme"></a>
+                    <button class="item-9 text-size-plus" onclick="onChangeSize(1)"><img
+                            src="/img/icons/increase-font-icon.png" alt="increase font"></button>
+                    <button class="item-10 text-size-minus" onclick="onChangeSize(-1)"><img
+                            src="/img/icons/decrease-font-fon.png" alt="decrease-font"></button>
+                    <!-- </div> -->
+                    <!-- <div class="done-option flex space-between align-center"> -->
+                    <button class="item-11 save" onclick="onSaveImg()"><img src="/img/icons/save-icon.png"
+                            alt="save meme"></button>
 
-                        <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
-                            <input name="img" id="imgData" type="hidden" />
-                            <button class="btn" type="submit"><img src="/img/icons/share-icon.png"
-                                    alt="share project"></button>
-                            <div class="share-container"></div>
-                        </form>
-                    </div>
+                    <a href="#" class="item-12 btn" onclick="downloadImg(this)" download="my-img.jpg"><img
+                            src="/img/icons/download-icon.png" alt="save meme"></a>
 
-                </div>
-
+                    <form class="item-13" action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                        <input name="img" id="imgData" type="hidden" />
+                        <button class="btn" type="submit"><img src="/img/icons/share-icon.png"
+                                alt="share project"></button>
+                        <div class="share-container"></div>
+                    </form>
+                    <!-- </div> -->
+                    <!-- </div> -->
             </section>
         </main>
 

@@ -4,6 +4,7 @@ const SAVE_MEME_KEY = 'saveMemes'
 
 var gSavedMemes = getSavedMemes()
 
+var isOnText = false;
 
 var gImgs = [{ id: 1, url: 'img/meme-imgs/meme-imgs-(square)/1.jpg', keywords: ['trump', 'speech'] },
 { id: 2, url: 'img/meme-imgs/meme-imgs-(square)/2.jpg', keywords: ['dog', 'loves', 'animal'] },
@@ -50,6 +51,15 @@ function addLine() {
     gMeme.selectedLineIdx = gMeme.lines.length - 1
 }
 
+function getIsOnText(){
+    return isOnText;
+}
+
+function setIsOnText(val){
+    isOnText = val;
+}
+
+
 
 function createKeyWords() {
     var existKeyWords = loadFromStorage(KEY_PICTURE_KEYWORDS) || {};
@@ -70,7 +80,7 @@ function getNewLine() {
     var xCord = gCanvas ? gCanvas.width / 2 : 0;
 
     var linesLength = gMeme.lines.length;
-    var yCord = (linesLength === 0)? gCanvas.height * 0.1:
+    var yCord = (linesLength === 0)? gCanvas.height * 0.14:
                 (linesLength === 1)? gCanvas.height * 0.92 :
                 gCanvas.height/2;
 

@@ -63,10 +63,21 @@ nav ul > *:hover{
     display: block;
 }
 
+/* canves */
+
+.canvas-container{
+    width: 100%;
+}
+
 /* tool bar */
 
 .build-meme{
     flex-direction: column;
+}
+
+.editor{
+    padding: 0;
+    padding-top: 20px;
 }
 
 

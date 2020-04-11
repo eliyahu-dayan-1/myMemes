@@ -89,6 +89,10 @@ nav ul > *:not(:last-child){
     display: none;
 }
 
+.part-a-search > *:not(:last-child){
+    margin: 10px;
+}
+
 
 .options label img{
     background-color: white;
@@ -190,7 +194,6 @@ main{
 
 /* canvas */
 .canvas-container{
-    width: 50vw;
     flex-grow: 2;
 }
 
@@ -202,13 +205,65 @@ main{
     flex-grow: 1;
     height: 100%;
     padding: 20px 0px;
+    display: grid;
+    grid-template-rows: auto auto 20px auto 20px auto auto 20px auto;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    text-align: center;
+    justify-items: center;
+    align-items: center;
 }
+
+.item-1{
+    grid-area: 1/1/1/ span 3;
+}
+
+.item-2{
+    grid-area: 2/1;
+}
+.item-3{
+    grid-area: 2/ 3;
+}
+
+.item-4{
+    grid-area: 4/1/4/span 3;
+}
+
+.item-5{
+    grid-area: 6/1;
+}
+
+.item-6{
+    grid-area: 6/2;
+}
+
+.item-8{
+    grid-area: 6/3;
+}
+
+.item-7{
+    grid-area: 7/1;
+}
+.item-9{
+    grid-area: 7/2;
+}
+.item-10{
+    grid-area: 7/3;
+}
+.item-11{
+    grid-area: 9/1;
+}
+.item-12{
+    grid-area: 9/2;
+}
+.item-13{
+    grid-area: 9/3;
+}
+
 
 
 /* tool bar */
- .editor > *:not(:last-child){
-    margin-bottom: 10px;
-}
+
 
 .editor img, .editor input, .editor label{
     cursor: pointer;
@@ -221,23 +276,18 @@ main{
     padding: 8px;
 }
 
-.editor-text > *:not(:last-child){
-    margin-right: 10px;
-}
 
 input#memes-text {
     background-color: white;
     border-radius: 14px;
     text-indent: 13px;
     font-size: 1.5rem;
-    padding: 5px;
 }
 
 .emoji {
     background-color: white;
     text-indent: 13px;
     font-size: 1.5rem;
-    padding: 5px;
     width: 100%;
 }
 
