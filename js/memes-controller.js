@@ -19,6 +19,7 @@ function init() {
     gCtx = gCanvas.getContext('2d');
 
     gElContainer = document.querySelector('.canvas-container');
+    console.log(gElContainer.offsetWidth)
     renderGallery(getImgs())
     renderCanvas()
     window.addEventListener('resize', function(event){
@@ -197,6 +198,7 @@ function renderCanvas() {
             var widthImg = img.width;
             var heightImg = img.height;
             var widthContainer = gElContainer.offsetWidth; 
+            console.log(widthContainer)
 
             if(widthImg + 20 > widthContainer){
                 widthImg = widthContainer - 40
@@ -215,6 +217,7 @@ function renderCanvas() {
             })
             if(getIsOnText()) drawAroundText()
         }
+
     }
 }
 
