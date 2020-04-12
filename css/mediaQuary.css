@@ -48,6 +48,8 @@ nav ul > *, .main-nav .active *{
     justify-content: center;
     color: #f1f1f1;
     box-shadow: inset 0px -3px 0px 0px #e4e4e4;
+    padding: 25px 114px;
+
 }
 
 /* nav ul > *:first-child{

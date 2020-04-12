@@ -48,7 +48,6 @@ function onKeyPress(ev){
 const canvas = document.querySelector('.canvas-container')
 
 canvas.addEventListener('click', () => {
-  alert('clicked')
   if(getIsOnText) gElTextInput.focus()
 })
 

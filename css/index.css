@@ -46,7 +46,7 @@ input{
 nav{
     background-color: rgba(12, 245, 101, 0.945);
     padding: 0px 20px;
-    width: 100vw;
+
 }
 
 .logo{
@@ -176,7 +176,7 @@ nav ul > *:not(:last-child){
 
 main{
     flex-grow: 1;
-    width: 100vw;
+
     background-color: rgb(231, 231, 231);
     padding: 20px 30px;
 
@@ -342,7 +342,6 @@ input#memes-text {
 /* footer */
 
 footer{
-    width: 100vw;
     background-color: rgba(12, 245, 101, 0.945);
 }
 
