@@ -52,8 +52,6 @@ nav{
 .logo{
     font-size: 2.5rem;
     font-family: lobster;
-
-    
 }
 
 nav .logo{
@@ -83,11 +81,21 @@ nav ul > *:not(:last-child){
     font-size: 1.7rem;
 }
 
+/* header-massage */
+
+.header-massage{
+    padding: 70px 0px;
+    background-color: rgb(203, 226, 196);
+    font-size: 50px;
+    font-family: lobster;
+    text-align: center;
+}
+
 /* gallery */
 
 .options{
     min-height: 100px;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
 }
 
 .options > *:not(:first-child){
@@ -98,8 +106,13 @@ nav ul > *:not(:last-child){
     display: none;
 }
 
+.part-a-search{
+    width: 100%;
+    margin-bottom: 30px;
+}
+
 .part-a-search > *:not(:last-child){
-    margin: 10px;
+    margin-right: 30px;
 }
 
 
@@ -118,7 +131,6 @@ nav ul > *:not(:last-child){
     padding: 15px;
     max-width: 100vh;
     transition: 0.5s;
-
 }
 
 .options .search img{
@@ -176,9 +188,8 @@ nav ul > *:not(:last-child){
 
 main{
     flex-grow: 1;
-
     background-color: rgb(231, 231, 231);
-    padding: 20px 30px;
+    padding: 25px 30px;
 
 }
 
@@ -196,7 +207,7 @@ main{
 }
 
 
-.editor-open .choose-image, .editor-open .my-memes{
+.editor-open .choose-image, .editor-open .my-memes, .editor-open .header-massage{
     display: none;
 }
 
@@ -206,7 +217,7 @@ main{
     align-items: center;
 }
 
-.my-memes-open .choose-image, .my-memes-open .build-meme{
+.my-memes-open .choose-image, .my-memes-open .build-meme, .my-memes-open .header-massage{
     display: none;
 }
 
@@ -218,7 +229,7 @@ main{
     display: none;
 }
 
-.gallery-open .choose-image{
+.gallery-open .choose-image, .gallery-open .header-massage{
     display: flex;
 }
 
@@ -239,12 +250,14 @@ main{
     height: 100%;
     padding: 20px 0px;
     display: grid;
-    grid-template-rows: auto auto 20px auto 20px auto auto 20px auto;
+    grid-template-rows: 0px auto 20px auto 20px auto auto 20px auto;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     text-align: center;
     justify-items: center;
     align-items: center;
+    background-color: rgb(224, 220, 220);
+    padding: 20px 20px;
 }
 
 
@@ -345,10 +358,23 @@ footer{
     background-color: rgba(12, 245, 101, 0.945);
 }
 
-footer .logo{
+footer > *:not(:last-child){
     margin-bottom: 13px;
+
+}
+
+footer .logo{
     margin-top: 20px;
 }
+
+/* header-massage */
+
+.footer-massage{
+    font-size: 20px;
+    font-family: lobster;
+    text-align: center;
+}
+
 
 footer .copy-right{
     margin-bottom: 20px;

@@ -37,12 +37,7 @@ function resizeCanvas() {
 
 function onKeyPress(ev){
     // // TODO on presskey
-    // if(!getIsOnText) return;
-
-    // var evKey = ev.key;
-    // console.log(evKey.length)
-
-    // gElTextInput.focus()
+    if(getIsOnText) gElTextInput.focus()
 }
 
 const canvas = document.querySelector('.canvas-container')
