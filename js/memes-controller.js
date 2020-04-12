@@ -51,6 +51,8 @@ canvas.addEventListener('click', () => {
   alert('clicked')
   gElTextInput.focus()
 })
+canvas.click()
+
 
 
 function onTextChange(elInput) {
