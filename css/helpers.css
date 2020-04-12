@@ -7,19 +7,23 @@
 .flex.align-center {
     align-items: center; }
   
-  .flex.space-between {
-    justify-content: space-between; }
+.flex.space-between {
+    justify-content: space-between; 
+}
   
-  .flex.space-around {
-    justify-content: space-around; }
+.flex.space-around {
+    justify-content: space-around; 
+}
   
-   .flex.column {
-     flex-direction: column;
-   }
-   .flex.wrap{
-       flex-wrap: wrap;
-   }
-   .clean-list {
+.flex.column {
+    flex-direction: column;
+}
+
+.flex.wrap{
+    flex-wrap: wrap;
+}
+
+.clean-list {
     list-style-type: none;
     margin: 0;
     padding: 0;

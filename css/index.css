@@ -36,6 +36,9 @@ input{
 }
 
 
+
+/* content */
+
 .screen{
     position: fixed;
     width: 100vh;
@@ -43,7 +46,7 @@ input{
     visibility: hidden;
 }
 
-  /* nav bar */
+/* nav bar */
 
 nav{
     background-color: rgba(12, 245, 101, 0.945);
@@ -261,11 +264,10 @@ main{
 }
 
 .editor{
-    flex-grow: 1;
     height: 100%;
     display: grid;
-    grid-template-rows: 0px auto 0px 0px 0px auto auto 20px auto;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 0px auto 0px 0px 0px 70px auto 20px auto;
+    grid-template-columns: repeat(3, minmax(50px, 90px));
     gap: 10px;
     text-align: center;
     justify-items: center;

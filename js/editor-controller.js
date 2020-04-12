@@ -12,7 +12,6 @@ var gCurrLocation = {
     clickXY: {},
 }
 
-var gElContainer;
 
 var gElTextInput = document.querySelector('#memes-text')
 
@@ -20,8 +19,6 @@ function init() {
     gCanvas = document.querySelector('#my-canvas');
     gCtx = gCanvas.getContext('2d');
 
-    gElContainer = document.querySelector('.canvas-container');
-    
     renderGallery(getImgs())
     renderCanvas()
 }
@@ -152,16 +149,15 @@ function renderCanvas() {
         var img = new Image()
         img.src = url;
         img.onload = () => {
-            
+
             var widthImg = img.width;
             var heightImg = img.height;
-            var widthContainer = gElContainer.offsetWidth; 
-            console.log(widthContainer)
+            var widthBody = document.body.offsetWidth; 
 
-            if(widthImg + 20 > widthContainer){
-                widthImg = widthContainer - 40
-                heightImg = widthImg * (heightImg/ img.width)    
-            } 
+            widthImg = (widthBody > 940)? 500:
+                        (widthBody > 650)? 400: 340;
+
+            heightImg = widthImg * (heightImg/ img.width)   
 
             gCanvas.width = widthImg;
             gCanvas.height = heightImg;

@@ -41,21 +41,22 @@ var gMeme = {
 }
 
 var gUserPerfer = {
-    outlineColor: '#cd0000', 
-    fillColor: '#FFFFFF', 
+    outlineColor: '#cd0000',
+    fillColor: '#FFFFFF',
     fontType: 'impact',
 };
 
 function addLine() {
     gMeme.lines.push(getNewLine())
     gMeme.selectedLineIdx = gMeme.lines.length - 1
+    calcRecAroundText()
 }
 
-function getIsOnText(){
+function getIsOnText() {
     return isOnText;
 }
 
-function setIsOnText(val){
+function setIsOnText(val) {
     isOnText = val;
 }
 
@@ -78,15 +79,18 @@ function getNewLine() {
     var xCord = gCanvas ? gCanvas.width / 2 : 0;
 
     var linesLength = gMeme.lines.length;
-    var yCord = (linesLength === 0)? gCanvas.height * 0.14:
-                (linesLength === 1)? gCanvas.height * 0.92 :
-                gCanvas.height/2;
+    var yCord = (linesLength === 0) ? gCanvas.height * 0.14 :
+                (linesLength === 1) ? gCanvas.height * 0.92 :
+                gCanvas.height / 2;
+
+    var widthBody = document.body.offsetWidth;
 
     return {
-        txt: 'put your text', size: 50,
+        txt: 'put your text',
+        size: (widthBody > 940) ? 35 : (widthBody > 750) ? 31 : 26,
         align: 'center',
         outlineColor: gUserPerfer.outlineColor,
-        fillColor: gUserPerfer.fillColor ,
+        fillColor: gUserPerfer.fillColor,
         x: xCord,
         y: yCord,
         fontType: gUserPerfer.fontType,
@@ -96,6 +100,8 @@ function getNewLine() {
         rightCorX: xCord,
         topCorY: yCord - 45,
     }
+
+
 }
 
 function getKeyWords() {
@@ -104,7 +110,7 @@ function getKeyWords() {
 
 function getPicturnByKeyWord(txt) {
     if (txt === 'all') return gImgs;
-    return gImgs.filter(img =>{
+    return gImgs.filter(img => {
         return img.keywords.some(word => word.includes(txt))
     })
 }
@@ -168,7 +174,7 @@ function setText(text) {
         addLine()
     };
 
-    if(gMeme.lines[currLineId].txt === 'put your text') text = text.slice(-1);;
+    if (gMeme.lines[currLineId].txt === 'put your text') text = text.slice(-1);;
 
     gMeme.lines[currLineId].txt = text
     console.log(gMeme.lines[currLineId])
@@ -179,15 +185,15 @@ function setNewLine() {
     addLine()
 }
 
-function setUserImage(url){
+function setUserImage(url) {
     var lastId = gImgs[gImgs.length - 1].id;
-    var newId = (lastId === undefined)? lastId + 1: 0;
-    gImgs.push({id: newId, url, keywords:[]});
+    var newId = (lastId === undefined) ? lastId + 1 : 0;
+    gImgs.push({ id: newId, url, keywords: [] });
     setImageById(newId);
 }
 
 function setPopularWord(word) {
-    if(gKeywords[word]) gKeywords[word] += 0.05;
+    if (gKeywords[word]) gKeywords[word] += 0.05;
     saveToStorage(KEY_PICTURE_KEYWORDS, gKeywords)
 }
 
@@ -207,26 +213,26 @@ function setCurrLineNewCorr(canvasEv, touchLineIdx) {
     calcRecAroundText()
 }
 
-function setFillColor(color){
+function setFillColor(color) {
     gUserPerfer.fillColor = color;
 
     var currLine = getCurrLine()
-    if(currLine) currLine.fillColor = color;
+    if (currLine) currLine.fillColor = color;
 }
 
-function setFontType(fontType){
+function setFontType(fontType) {
     gUserPerfer.fontType = fontType;
 
     var currLine = getCurrLine()
-    if(currLine) currLine.fontType = fontType;
+    if (currLine) currLine.fontType = fontType;
 }
 
 
-function setOutlineColor(color){
+function setOutlineColor(color) {
     gUserPerfer.outlineColor = color;
 
     var currLine = getCurrLine()
-    if(currLine) currLine.outlineColor = color;
+    if (currLine) currLine.outlineColor = color;
 }
 
 function changeTextLocation(amount) {
@@ -256,7 +262,7 @@ function changeTextfocus(amount) {
     if (amount === -1 && gMeme.selectedLineIdx > 0) gMeme.selectedLineIdx--;
 }
 
-function changeCurrLineById(id){
+function changeCurrLineById(id) {
     gMeme.selectedLineIdx = id;
 }
 
@@ -292,7 +298,8 @@ function saveImg() {
 function saveImgUrl(url) {
     var lastImage = gSavedMemes[gSavedMemes.length - 1];
     var newId = (lastImage) ? lastImage.id + 1 : 0;
-    gSavedMemes.push({ id: newId, url: url, obj: getGMeme()
+    gSavedMemes.push({
+        id: newId, url: url, obj: getGMeme()
     })
 
     saveToStorage(SAVE_MEME_KEY, gSavedMemes)
