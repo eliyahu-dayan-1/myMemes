@@ -45,9 +45,9 @@ function onTextChange(elInput) {
     renderCanvas()
 }
 
-function onImageClick(id) {
+function onImageChoose(id) {
     setImageById(id)
-    onEditorDisplayBtn()
+    closeAndOpenSection(['gallery-open', 'my-memes-open'], 'editor-open')
     renderCanvas()
 }
 
@@ -110,15 +110,21 @@ function onCanvasMouseUp() {
 
 function onMyMemes() {
     renderBitImg(getSavedMemes());
-    document.body.classList.add('my-memes-open')
+    closeAndOpenSection([], 'my-memes-open')
 }
 
+function toggleMenu(){
+    document.body.classList.toggle('menu-open')
+}
+
+
 function onGalleryClick() {
-    document.body.classList.remove('my-memes-open')
+    closeAndOpenSection(['my-memes-open'],'')
 }
 
 function onEditSavedMeme(id) {
     setCurrGMeme(id)
+    onGalleryClick()
     renderCanvas()
 }
 
@@ -146,10 +152,8 @@ function drawAroundText() {
     drawRect(currLine.leftCorX, currLine.topCorY, currLine.width + 10, currLine.height + 10)
 }
 
-function onEditorDisplayBtn() {
-    toggelEditor();
-    var bodyClassList = document.body.classList.value;
-    var isEditorOpen = bodyClassList.includes('build-open');
+function onChangeImg(){
+    closeAndOpenSection(['my-memes-open','editor-open'], 'gallery-open')
 }
 
 // TODO move element
@@ -225,7 +229,7 @@ function renderImgGallery(images) {
     var elGallery = document.querySelector('.choose-image .gallery');
     elGallery.innerHTML = '';
     images.forEach(image => {
-        var elImg = `<img class="gallery-image" onclick="onImageClick(${image.id})" src=${image.url}
+        var elImg = `<img class="gallery-image" onclick="onImageChoose(${image.id})" src=${image.url}
             alt="">`
         elGallery.innerHTML += elImg;
     })
@@ -243,9 +247,12 @@ function renderBitImg(images) {
     images.forEach(image => {
         var elImg = `<div><img class="my-meme-image" src=${image.url}
         alt="">
-        <button onclick="onEditSavedMeme(${image.id})" class="memes-edit">🖍</button>
-        <a href="#" class="memes-download" onclick="onDownloadSavedMeme(this, ${image.id})" download="my-img.jpg" >⬇</a>
-            <button onclick="onEarseSavedMeme(${image.id})" class="memes-earse">🗑</button>
+        <button onclick="onEditSavedMeme(${image.id})" class="memes-edit"><img class="operation-img" src="/img/icons/edit-icon.svg"
+        alt="edit"></button>
+        <a href="#" class="memes-download" onclick="onDownloadSavedMeme(this, ${image.id})" download="my-img.jpg" ><img class="operation-img" src="/img/icons/download-icon.png"
+        alt="download"></a>
+            <button onclick="onEarseSavedMeme(${image.id})" class="memes-earse"><img class="operation-img" src="/img/icons/trash.png"
+            alt="delete text"></button>
             </div>
             `;
 
@@ -314,13 +321,9 @@ function downloadImg(elLink) {
     elLink.href = imgContent
 }
 
-
-function toggelEditor() {
-    document.body.classList.toggle('build-open')
-}
-
-function toggleMenu() {
-    document.body.classList.toggle('menu-open')
+function closeAndOpenSection(closesArr, openStr){
+    closesArr.forEach(close => document.body.classList.remove(close))
+    if(openStr) document.body.classList.add(openStr)
 }
 
 // The next 2 functions handle IMAGE UPLOADING to img tag from file system: 

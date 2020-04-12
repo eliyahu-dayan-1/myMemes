@@ -68,6 +68,13 @@ nav ul > *:hover{
 main{
  padding:  20px 5px;
 }
+
+/* gallery */
+
+.gallery {
+    column-count: 3;
+}
+
 /* canves */
 
 .canvas-container{
@@ -153,8 +160,10 @@ main{
 
 
 }
-@media (max-width: 660px) {
+@media (max-width: 450px) {
 
-
+    .gallery {
+        column-count: 2;
+    }
 
 }
