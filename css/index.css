@@ -20,6 +20,7 @@ button{
     color: inherit;
     background: none;
     text-decoration: none;
+    cursor: pointer;
   }
 
 a{
@@ -31,6 +32,7 @@ input{
     border: 0;
     background: 0;
     width: 100%;
+    cursor: pointer;
 }
 
 
@@ -62,6 +64,10 @@ nav ul > *{
     display: flex;
     align-items: center;
     font-size: 1rem;
+}
+
+nav ul *{
+    cursor: pointer;
 }
 
 nav ul > *:not(:first-child){
@@ -145,6 +151,10 @@ nav ul > *:not(:last-child){
 
 }
 
+.key-words button{
+    font-weight: bold;
+}
+
 .key-words button:not(:first-child){
     margin-left: 12px;
 }
@@ -157,6 +167,7 @@ nav ul > *:not(:last-child){
 .gallery img{
     width: 100%;
     transition: 0.6s;
+    cursor: pointer;
 }
 
 .gallery > div > img{
@@ -248,9 +259,8 @@ main{
 .editor{
     flex-grow: 1;
     height: 100%;
-    padding: 20px 0px;
     display: grid;
-    grid-template-rows: 0px auto 20px auto 20px auto auto 20px auto;
+    grid-template-rows: 0px auto 0px 0px 0px auto auto 20px auto;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     text-align: center;
@@ -258,6 +268,7 @@ main{
     align-items: center;
     background-color: rgb(224, 220, 220);
     padding: 20px 20px;
+    border-radius: 10px;
 }
 
 
@@ -268,9 +279,13 @@ main{
 
 .item-2{
     grid-area: 2/1;
+    justify-self: flex-end;
+
 }
 .item-3{
     grid-area: 2/ 3;
+    justify-self: flex-start;
+
 }
 
 .item-4{
@@ -279,14 +294,20 @@ main{
 
 .item-5{
     grid-area: 6/1;
+    align-self: flex-start;
+
 }
 
 .item-6{
     grid-area: 6/2;
+    align-self: flex-start;
+
 }
 
 .item-8{
     grid-area: 6/3;
+    align-self: flex-start;
+
 }
 
 .item-7{
@@ -365,6 +386,7 @@ footer > *:not(:last-child){
 
 footer .logo{
     margin-top: 20px;
+    font-size: 1.8rem;
 }
 
 /* header-massage */

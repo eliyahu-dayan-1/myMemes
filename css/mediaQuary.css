@@ -9,12 +9,12 @@
 
 .menu-open .screen{
     visibility: visible;
+    background-color: rgba(212, 212, 212, 0.445)
 }
 
 
 
 .main-nav {
-
     position: fixed;
     top: 0px;
     right: 0px;
@@ -31,29 +31,28 @@
     transform: translateX(0);
 }
 
-
-
-nav ul > *, .main-nav .active *{
-    padding: 0;
+nav li, nav ul > *{
+    padding: 0 !important;
     border: 0 !important;
     margin: 0 !important;
-    transition: background-color .3s;
-    padding:  20px 35px;
+}
+
+nav li > *{
+
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #f1f1f1;
-    box-shadow: inset 0px -3px 0px 0px #e4e4e4;
-    padding: 25px 114px;
-
+    box-shadow: inset 0px -3px 0px 0px black;
+    font-size: 1.5rem;
+    padding: 40px 85px;
+    transition: .3s;
+    width: 100%;
 }
 
-/* nav ul > *:first-child{
-    border-top: 3px solid #1e1e1e;
-} */
 
-nav ul > *:hover{
-    box-shadow: inset 0px -3px 0px 0px white;
+nav li > *:hover{
+    box-shadow: inset 0px -3px 0px 0px rgba(255, 255, 255, 0.548);
+    color: rgba(255, 255, 255, 0.548);
 }
 
 
@@ -77,6 +76,7 @@ main{
 
 .canvas-container{
     width: 100%;
+    margin-bottom: 20px;
 }
 
 /* tool bar */
@@ -87,11 +87,12 @@ main{
 
 .editor{
     padding: 0;
-    padding-top: 20px;
+    padding: 20px 20px;
+    border-radius: 10px;
     flex-grow: 1;
     display: grid;
-    grid-template-rows: auto  20px auto 20px  auto 20px auto;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto  auto auto 20px  auto 20px auto;
+    grid-template-columns: repeat(6, 1fr);
     gap: 5px;
     text-align: center;
     justify-items: center;
@@ -124,25 +125,38 @@ main{
 }
 
 .item-5{
-    grid-area: 5/1;
+    grid-area: 5/4;
+
+    align-self: flex-start;
+
 }
 
 .item-6{
-    grid-area: 5/2;
+    grid-area: 5/5;
+    align-self: flex-start;
+
 }
 
 .item-8{
-    grid-area: 5/3;
+    grid-area: 5/6;
+    align-self: flex-start;
 }
 
 .item-7{
-    grid-area: 5/4;
+    grid-area: 5/1;
+
+    align-self: flex-start;
 }
 .item-9{
-    grid-area: 5/5;
+    grid-area: 5/2;
+
+    align-self: flex-start;
+
 }
 .item-10{
-    grid-area: 5/6;
+    grid-area: 5/3;
+    align-self: flex-start;
+
 }
 .item-11{
     grid-area: 7/1/7/span 2;

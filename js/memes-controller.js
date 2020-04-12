@@ -121,7 +121,7 @@ function onCanvasMouseUp() {
 
 function onMyMemes() {
     renderBitImg(getSavedMemes());
-    closeAndOpenSection([], 'my-memes-open')
+    closeAndOpenSection(['gallery-open', 'editor-open'], 'my-memes-open')
 }
 
 function toggleMenu(){
@@ -135,7 +135,7 @@ function onGalleryClick() {
 
 function onEditSavedMeme(id) {
     setCurrGMeme(id)
-    onGalleryClick()
+    closeAndOpenSection(['gallery-open', 'my-memes-open'], 'editor-open')
     renderCanvas()
 }
 
