@@ -14,6 +14,8 @@ var gCurrLocation = {
 
 var gElContainer;
 
+var gElTextInput = document.querySelector('#memes-text')
+
 function init() {
     gCanvas = document.querySelector('#my-canvas');
     gCtx = gCanvas.getContext('2d');
@@ -35,8 +37,13 @@ function resizeCanvas() {
 
 function onKeyPress(ev){
     // TODO on presskey
-    // console.log(ev)
-    // document.querySelector('#memes-text').value += ev.key;
+    if(!getIsOnText) return;
+
+    var evKey = ev.key;
+    console.log(evKey.length)
+
+    gElTextInput.focus()
+    
 }
 
 function onTextChange(elInput) {

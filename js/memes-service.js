@@ -289,7 +289,8 @@ function saveImg() {
 function saveImgUrl(url) {
     var lastImage = gSavedMemes[gSavedMemes.length - 1];
     var newId = (lastImage) ? lastImage.id + 1 : 0;
-    gSavedMemes.push({ id: newId, url: url, obj: getGMeme()})
+    gSavedMemes.push({ id: newId, url: url, obj: getGMeme()
+    })
 
     saveToStorage(SAVE_MEME_KEY, gSavedMemes)
 }
