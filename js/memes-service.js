@@ -59,8 +59,6 @@ function setIsOnText(val){
     isOnText = val;
 }
 
-
-
 function createKeyWords() {
     var existKeyWords = loadFromStorage(KEY_PICTURE_KEYWORDS) || {};
 
@@ -85,7 +83,7 @@ function getNewLine() {
                 gCanvas.height/2;
 
     return {
-        txt: '', size: 50,
+        txt: 'put your text', size: 50,
         align: 'center',
         outlineColor: gUserPerfer.outlineColor,
         fillColor: gUserPerfer.fillColor ,
@@ -113,7 +111,6 @@ function getPicturnByKeyWord(txt) {
 
 function getWordsByKeyword(txt) {
     if (txt === 'all') return gKeywords;
-    // txt.toUpperCase() === txt.toLowerCase()
 
     var filterKeyWords = {}
     for (const word in gKeywords) {
@@ -121,7 +118,6 @@ function getWordsByKeyword(txt) {
             filterKeyWords[word] = gKeywords[word];
         }
     }
-    // filterKeyWords['all'] = 2;
     return filterKeyWords;
 }
 
@@ -166,19 +162,28 @@ function removeLine() {
 }
 
 function setText(text) {
-    var currImgId = gMeme.selectedLineIdx;
+    var currLineId = gMeme.selectedLineIdx;
 
-    if (!gMeme.lines[currImgId]) {
+    if (!gMeme.lines[currLineId]) {
         addLine()
-        return
     };
 
-    gMeme.lines[currImgId].txt = text
+    if(gMeme.lines[currLineId].txt === 'put your text') text = text.slice(-1);;
+
+    gMeme.lines[currLineId].txt = text
+    console.log(gMeme.lines[currLineId])
     calcRecAroundText()
 }
 
 function setNewLine() {
     addLine()
+}
+
+function setUserImage(url){
+    var lastId = gImgs[gImgs.length - 1].id;
+    var newId = (lastId === undefined)? lastId + 1: 0;
+    gImgs.push({id: newId, url, keywords:[]});
+    setImageById(newId);
 }
 
 function setPopularWord(word) {
@@ -190,7 +195,6 @@ function setImageById(id) {
     gMeme.selectedImgId = id
 }
 
-// TODO underStand what the problemo
 function setCurrLineNewCorr(canvasEv, touchLineIdx) {
     changeCurrLineById(touchLineIdx)
     var currLine = getCurrLine();
@@ -250,7 +254,6 @@ function setDelOrAddText(val) {
 function changeTextfocus(amount) {
     if (amount === 1 && gMeme.lines.length - 1 > gMeme.selectedLineIdx) gMeme.selectedLineIdx++;
     if (amount === -1 && gMeme.selectedLineIdx > 0) gMeme.selectedLineIdx--;
-    console.log(gMeme.selectedLineIdx)
 }
 
 function changeCurrLineById(id){

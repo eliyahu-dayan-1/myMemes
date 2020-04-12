@@ -213,6 +213,10 @@ main{
     height: 100%;
 }
 
+.build-meme > *:not(:last-child){
+    margin-right: 15px;
+}
+
 .my-memes{
     display: none;
 }
@@ -248,12 +252,12 @@ main{
 
 /* canvas */
 .canvas-container{
-    width: 500px;
-    flex-grow: 2;
+    width: 66%;
 }
 
 #my-canvas{
-    border: 5px solid black;;
+    border: 5px solid black;
+    cursor: pointer;
 }
 
 .editor{
