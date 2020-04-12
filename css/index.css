@@ -285,12 +285,11 @@ main{
 
 .item-2{
     grid-area: 2/1;
-    justify-self: flex-end;
 
 }
 .item-3{
     grid-area: 2/ 3;
-    justify-self: flex-start;
+    justify-self: flex-end;
 
 }
 
