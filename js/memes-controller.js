@@ -36,22 +36,21 @@ function resizeCanvas() {
 }
 
 function onKeyPress(ev){
-    // TODO on presskey
-    if(!getIsOnText) return;
+    // // TODO on presskey
+    // if(!getIsOnText) return;
 
-    var evKey = ev.key;
-    console.log(evKey.length)
+    // var evKey = ev.key;
+    // console.log(evKey.length)
 
-    gElTextInput.focus()
+    // gElTextInput.focus()
 }
 
 const canvas = document.querySelector('.canvas-container')
 
 canvas.addEventListener('click', () => {
   alert('clicked')
-  gElTextInput.focus()
+  if(getIsOnText) gElTextInput.focus()
 })
-canvas.click()
 
 
 
@@ -99,8 +98,8 @@ function onSwitch(amount) {
 
 function onDelOrAddText(val) {
     setDelOrAddText(val)
-    gElTextInput.focus();
     setIsOnText(true)
+    canvas.click()
     renderCanvas()
 }
 
