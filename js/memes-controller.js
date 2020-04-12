@@ -43,7 +43,7 @@ function onKeyPress(ev){
     console.log(evKey.length)
 
     gElTextInput.focus()
-    
+
 }
 
 function onTextChange(elInput) {
@@ -90,6 +90,8 @@ function onSwitch(amount) {
 
 function onDelOrAddText(val) {
     setDelOrAddText(val)
+    gElTextInput.focus()
+    setIsOnText(true)
     renderCanvas()
 }
 
