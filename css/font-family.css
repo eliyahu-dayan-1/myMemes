@@ -18,3 +18,7 @@
     font-family: heebo;
     src: url(../fonts/Heebo/Heebo-Regular.ttf);
 }
+@font-face{
+    font-family: lobster;
+    src: url(../fonts/lobster/Lobster-Regular.ttf);
+}
