@@ -41,11 +41,11 @@
                     <!-- TODO
                         option to choose file-->
                     <div class="flex space-between part-a-search">
-                        <label for="upload-file"><img src="/img/icons/upload-icon.svg" alt="save meme"></label>
+                        <label for="upload-file"><img src="img/icons/upload-icon.svg" alt="save meme"></label>
                         <input class="file-input btn" type="file" id="upload-file" name="image"
                             onchange="onImgInput(event)" />
                         <div class="search flex justify-center align-center">
-                            <div><img src="/img/icons/search-icon.png" alt="search icon"></div>
+                            <div><img src="img/icons/search-icon.png" alt="search icon"></div>
                             <input onclick="onWordClick(this.value)" oninput="onWordClick(this.value)" type="text">
                         </div>
                     </div>
@@ -68,10 +68,10 @@
                     <input class="item-1" oninput="onTextChange(this, event)" type="text" id="memes-text"
                         placeholder="your text">
 
-                    <button class="del-text item-2" onclick="onDelOrAddText(0)"><img src="/img/icons/trash.png"
+                    <button class="del-text item-2" onclick="onDelOrAddText(0)"><img src="img/icons/trash.png"
                             alt="delete text"></button>
 
-                    <button class="add-text item-3" onclick="onDelOrAddText(1)"><img src="/img/icons/add.png"
+                    <button class="add-text item-3" onclick="onDelOrAddText(1)"><img src="img/icons/add.png"
                             alt="add new text"></button>
                     <!-- </div> -->
 
@@ -80,7 +80,7 @@
                     <!-- <div class="add-style flex space-between"> -->
 
                     <div class=" item-5 change-outline-txt flex column">
-                        <label for="text-outline"><img src="/img/icons/change-outline-color-icon.png"
+                        <label for="text-outline"><img src="img/icons/change-outline-color-icon.png"
                                 alt="change outline txt">
                         </label>
                         <input onchange="onChangeOutlineColor(this.value)" type="color" id="text-outline" value="
@@ -88,13 +88,13 @@
                     </div>
 
                     <div class="item-6 change-fill-txt flex column">
-                        <label for="text-fill"><img src="/img/icons/change-color-icon.png" alt="change inner text">
+                        <label for="text-fill"><img src="img/icons/change-color-icon.png" alt="change inner text">
                         </label>
                         <input onchange="onChangeFillColor(this.value)" type="color" id="text-fill" value="#FFFFFF">
                     </div>
                     <!-- <div class="item-7 flex space-between"> -->
                     <button class="item-7 change-image" onclick="onChangeImg()">
-                        <img src="/img/icons/change-image.png" alt="change image"></button>
+                        <img src="img/icons/change-image.png" alt="change image"></button>
 
                     <select class="item-8 change-font" onchange="onChangeFont(this)">
                         <option value="impact">Impact</option>
@@ -106,20 +106,20 @@
                     <!-- </div> -->
 
                     <button class="item-9 text-size-plus" onclick="onChangeSize(1)"><img
-                            src="/img/icons/increase-font-icon.png" alt="increase font"></button>
+                            src="img/icons/increase-font-icon.png" alt="increase font"></button>
                     <button class="item-10 text-size-minus" onclick="onChangeSize(-1)"><img
-                            src="/img/icons/decrease-font-fon.png" alt="decrease-font"></button>
+                            src="img/icons/decrease-font-fon.png" alt="decrease-font"></button>
                     <!-- </div> -->
                     <!-- <div class="done-option flex space-between align-center"> -->
-                    <button class="item-11 save" onclick="onSaveImg()"><img src="/img/icons/save-icon.png"
+                    <button class="item-11 save" onclick="onSaveImg()"><img src="img/icons/save-icon.png"
                             alt="save meme"></button>
 
                     <a href="#" class="item-12 btn" onclick="downloadImg(this)" download="my-img.jpg"><img
-                            src="/img/icons/download-icon.png" alt="save meme"></a>
+                            src="img/icons/download-icon.png" alt="save meme"></a>
 
                     <form class="item-13" action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
                         <input name="img" id="imgData" type="hidden" />
-                        <button class="btn" type="submit"><img src="/img/icons/share-icon.png"
+                        <button class="btn" type="submit"><img src="img/icons/share-icon.png"
                                 alt="share project"></button>
                         <div class="share-container"></div>
                     </form>
