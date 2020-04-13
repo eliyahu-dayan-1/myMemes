@@ -7,77 +7,80 @@ var gElTextInput = document.querySelector('#memes-text')
 var gElImg;
 var gIsNewImg;
 
-// DELL
-// var gCurrShape = 'pen';
-
-// var gColor = {
-//     fill: '#43cb30',
-//     outLine: 'black'
-// }
-
-// var gCurrLocation = {
-//     clickXY: {},
-// }
-
 function onOpenMemesEditor() {
-
+    closeAndOpenSection(['gallery-open', 'my-memes-open'], 'editor-open')
     gCanvas = document.querySelector('#my-canvas');
-    gCtx = gCanvas.getContext('2d');
+    gCtx = gCanvas.getContext('2d');    const img = getImageById(getGMeme().selectedImgId)
 
-    const img = getImageById(getGMeme().selectedImgId)
-    console.log(img)
-    renderCanvas(img)
+    addLine()
+    _renderCanvas(img)
 
+    playCanvasClickListener()
+}
+
+
+function setGElImg(elImg){
+    gElImg = elImg;
+}
+
+//TODO cange text location
+function onKeyDown(ev){
+    if([32, 37, 38, 39, 40].indexOf(ev.keyCode) > -1 && getIsOnText()) {
+        ev.preventDefault();
+    }
+}
+
+function playCanvasClickListener(){
     gCanvas.addEventListener('click', () => {
         if (getIsOnText()) gElTextInput.focus()
         else {
             setIsOnText(false);
-            renderCanvas()
+            _renderCanvas()
         }
     })
 }
+
 function onTextChange(elInput) {
-    setText(elInput.value);
+    changeText(elInput.value);
     setIsOnText(true)
-    renderCanvas()
+    _renderCanvas()
 }
 
 function onChangeSize(amount) {
     setFontSize(amount)
-    renderCanvas()
+    _renderCanvas()
 }
 
 function onChangeFillColor(color) {
     setFillColor(color)
-    renderCanvas()
+    _renderCanvas()
 }
 
 function onChangeOutlineColor(color) {
     setOutlineColor(color)
-    renderCanvas()
+    _renderCanvas()
 }
 
 function onChangeFont(elSelect) {
     setFontType(elSelect.value)
-    renderCanvas()
+    _renderCanvas()
 }
 
 function onTextUpDown(amount) {
     changeTextLocation(amount)
-    renderCanvas()
+    _renderCanvas()
 }
-
 
 function onDelOrAddText(val) {
     delOrAddText(val)
     setIsOnText(true)
     gCanvas.click()
-    renderCanvas()
+    _renderCanvas()
 }
 
 function onSaveImg() {
     setIsOnText(false)
-    renderCanvas()
+    _renderCanvas()
     saveImg()
 }
 
@@ -87,15 +90,12 @@ function onCanvasMouseDown(ev) {
 }
 
 function onCanvasMouseMove(ev) {
-    if (gIsCklickDown) {
-        moveElement(ev);
-    }
+    if (gIsCklickDown) moveElement(ev);
 }
 
-function onCanvasMouseUp() {
+function onMouseUp() {
     gIsCklickDown = false;
 }
-
 
 function drawAroundText() {
     // draw rect around texts
@@ -122,12 +122,12 @@ function moveElement(canvasEv) {
     })
     if (!tuchLine) {
         setIsOnText(false)
-        renderCanvas()
+        _renderCanvas()
         return;
     }
     setCurrLineNewCorr(canvasEv, touchLineIndex)
     setIsOnText(true)
-    renderCanvas()
+    _renderCanvas()
 }
 
 function renderInputLine() {
@@ -136,11 +136,17 @@ function renderInputLine() {
     document.querySelector('#memes-text').value = currLine.txt;
 }
 
-function renderCanvas(img = undefined) {
-    if (gIsNewImg) loadNewImg(img.url)
-    else drawImg(gElImg)
+function playRenderCanvas(){
+    _renderCanvas
+}
 
-    drawLines()
+function _renderCanvas(img = undefined) {
+    if (gIsNewImg) loadNewImg(img.url)
+    else {
+        drawImg(gElImg);
+        drawLines();
+    }
+
     renderToolBarOption()
     renderInputLine()
 }
@@ -163,6 +169,7 @@ function loadNewImg(url) {
         gCanvas.width = widthImg;
         gCanvas.height = heightImg;
         drawImg(gElImg)
+        drawLines();
         setGIsNewImg(false)
     }
 }
@@ -201,7 +208,6 @@ function drawLine(text, x, y, fill, outLine, font, fontSize, textAlign) {
     gCtx.textAlign = textAlign;
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
-
 }
 
 function drawLines() {
@@ -212,7 +218,7 @@ function drawLines() {
     texts.forEach((text) => {
         drawLine(text.txt, text.x, text.y, text.fillColor, text.outlineColor, text.fontType, text.size + "px", text.align)
     })
-    if (getIsOnText) drawAroundText()
+    if (getIsOnText()) drawAroundText()
 }
 
 function drawRect(x, y, width, height) {

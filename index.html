@@ -12,7 +12,7 @@
     <title>gallery</title>
 </head>
 
-<body onload="init()" class="">
+<body onload="init()" class="" onkeydown="onKeyDown(event)" onmouseup="onMouseUp()">
 
     <section class="screen" onclick="toggleMenu()"></section>
 
@@ -31,19 +31,17 @@
 
         </nav>
 
-        <section class="header-massage flex align-center justify-center "> cook your meme...</section>
-
+        <div class="header-massage flex align-center justify-center "> cook your meme...</div>
 
         <main>
 
-            <section class="my-memes gallery">
-            </section>
+            <section class="my-memes gallery"> </section>
 
             <section class="choose-image flex column">
 
 
                 <div class="options flex column justify-center align-center">
- 
+
                     <div class="part-a-search flex  justify-center align-center ">
 
                         <div class="search flex justify-center align-center">
@@ -65,7 +63,7 @@
 
                 <div class="canvas-container flex align-center justify-center">
                     <canvas id="my-canvas" onmousedown="onCanvasMouseDown(event)" onmousemove="onCanvasMouseMove(event)"
-                        onmouseup="onCanvasMouseUp()" height="450" width="450"></canvas>
+                         height="450" width="450"></canvas>
                 </div>
 
                 <div class="editor">
@@ -122,6 +120,7 @@
                     </form>
          
             </section>
+
         </main>
 
         <footer class="main-footer flex align-center justify-center column">

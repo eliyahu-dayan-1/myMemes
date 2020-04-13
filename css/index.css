@@ -47,11 +47,13 @@ input{
 }
 
 /* nav bar */
+nav, footer{
+    background-color: #92c624;
+    color: rgb(240, 229, 229);
+}
 
 nav{
-    background-color: rgba(12, 245, 101, 0.945);
     padding: 0px 20px;
-
 }
 
 .logo{
@@ -75,7 +77,7 @@ nav ul *{
 
 nav ul > *:not(:first-child){
     padding-left: 10px;
-    border-left: 1px solid black;
+    border-left: 1px solid;
 }
 
 nav ul > *:not(:last-child){
@@ -85,7 +87,6 @@ nav ul > *:not(:last-child){
 
 
 .btn-menu{
-    color: white;
     display: none;
     font-size: 1.7rem;
 }
@@ -380,9 +381,7 @@ input#memes-text {
 
 /* footer */
 
-footer{
-    background-color: rgba(12, 245, 101, 0.945);
-}
+
 
 footer > *:not(:last-child){
     margin-bottom: 13px;

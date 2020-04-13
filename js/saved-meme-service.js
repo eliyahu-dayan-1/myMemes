@@ -15,11 +15,6 @@ function getSavedMemes() {
     return imagesUrls;
 }
 
-function setCurrGMeme(id) {
-    var savedMeme = getSavedMemesById(id);
-    gMeme = savedMeme.obj;
-}
-
 function earseSavedMeme(id) {
     var savedMemes = getSavedMemes();
 

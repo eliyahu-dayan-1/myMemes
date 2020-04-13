@@ -2,11 +2,6 @@
 
 
 function init() {
-    // window.addEventListener('resize', () => {
-    //     renderCanvas()
-    // })
-
-
     renderGallery(getImgs())
 }
 
@@ -15,7 +10,6 @@ function onImageChoose(id) {
     setImageById(id)
     closeAndOpenSection(['gallery-open', 'my-memes-open'], 'editor-open')
     onOpenMemesEditor()
-
 }
 
 function onWordClick(word) {
@@ -43,18 +37,21 @@ function renderGallery(images) {
 // The next 2 functions handle IMAGE UPLOADING to img tag from file system: 
 // to do handle this
 function onImgInput(ev) {
+    creatCanvas()
     loadImageFromInput(ev)
-    closeAndOpenSection(['gallery-open'], 'editor-open')
 }
 
-function loadImageFromInput(ev, onImageReady) {
+function loadImageFromInput(ev) {
     var reader = new FileReader();
 
     reader.onload = function (event) {
         var img = new Image();
         img.src = event.target.result;
         setUserImage(img.src);
-        renderCanvas()
+        // setGElImg(img) 
+        // playRenderCanvas()
+        setGIsNewImg(true);
+        onOpenMemesEditor()
     }
     reader.readAsDataURL(ev.target.files[0]);
 }

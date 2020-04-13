@@ -1,10 +1,6 @@
 'use strict';
 
-
 var isOnText = false;
-
-
-
 var gMeme = {
     selectedImgId: 1,
     selectedLineIdx: 0,
@@ -28,22 +24,20 @@ function getIsOnText() {
     return isOnText;
 }
 
-function setIsOnText(val) {
-    isOnText = val;
-}
+
 
 function getNewLine() {
     var xCord = gCanvas ? gCanvas.width / 2 : 0;
 
     var linesLength = gMeme.lines.length;
     var yCord = (linesLength === 0) ? gCanvas.height * 0.14 :
-                (linesLength === 1) ? gCanvas.height * 0.92 :
+                (linesLength === 1) ? gCanvas.height * 0.8 :
                 gCanvas.height / 2;
 
     var widthBody = document.body.offsetWidth;
 
     return {
-        txt: 'put your text',
+        txt: 'put your text here',
         size: (widthBody > 940) ? 35 : (widthBody > 750) ? 31 : 26,
         align: 'center',
         outlineColor: gUserPerfer.outlineColor,
@@ -57,8 +51,6 @@ function getNewLine() {
         rightCorX: xCord,
         topCorY: yCord - 45,
     }
-
-
 }
 
 function getGMeme() {
@@ -82,14 +74,14 @@ function removeLine() {
     gMeme.selectedLineIdx = (currLineLength === currLineIdx && currLineIdx) ? currLineIdx - 1 : currLineIdx;
 }
 
-function setText(text) {
+function changeText(text) {
     var currLineId = gMeme.selectedLineIdx;
 
     if (!gMeme.lines[currLineId]) {
         addLine()
     };
 
-    if (gMeme.lines[currLineId].txt === 'put your text') text = text.slice(-1);;
+    if (gMeme.lines[currLineId].txt === 'put your text here') text = text.slice(-1);;
 
     gMeme.lines[currLineId].txt = text
     calcRecAroundText()
@@ -101,7 +93,7 @@ function setNewLine() {
 
 function setUserImage(url) {
     var lastId = gImgs[gImgs.length - 1].id;
-    var newId = (lastId === undefined) ? lastId + 1 : 0;
+    var newId = (lastId !== undefined) ? lastId + 1 : 0;
     gImgs.push({ id: newId, url, keywords: [] });
     setImageById(newId);
 }
@@ -110,13 +102,25 @@ function setImageById(id) {
     gMeme.selectedImgId = id
 }
 
+function setIsOnText(val) {
+    isOnText = val;
+}
+
+function setCurrGMeme(id) {
+    var savedMeme = getSavedMemesById(id);
+    gMeme = savedMeme.obj;
+}
+
 function setCurrLineNewCorr(canvasEv, touchLineIdx) {
     changeCurrLineById(touchLineIdx)
     var currLine = getCurrLine();
+    console.log(canvasEv)
 
+    // var newCurrX = canvasEv.offsetX;
+    // var newCurrY = canvasEv.offsetY;
     var newCurrX = currLine.x + canvasEv.movementX;
     var newCurrY = currLine.y + canvasEv.movementY;
-
+    
     currLine.x = newCurrX;
     currLine.y = newCurrY;
     calcRecAroundText()
@@ -129,13 +133,6 @@ function setFillColor(color) {
     if (currLine) currLine.fillColor = color;
 }
 
-function setFontType(fontType) {
-    gUserPerfer.fontType = fontType;
-
-    var currLine = getCurrLine()
-    if (currLine) currLine.fontType = fontType;
-}
-
 
 function setOutlineColor(color) {
     gUserPerfer.outlineColor = color;
@@ -144,13 +141,11 @@ function setOutlineColor(color) {
     if (currLine) currLine.outlineColor = color;
 }
 
-function changeTextLocation(amount) {
-    var currImgId = gMeme.selectedImgId;
-    if (!gMeme.lines[currImgId]) return;
+function setFontType(fontType) {
+    gUserPerfer.fontType = fontType;
 
-    var yCordinate = gMeme.lines[currImgId].y;
-    if (amount === 1 && gCanvas.height > yCordinate) gMeme.lines[gMeme.selectedLineIdx].y++;
-    if (amount === -1 && yCordinate > 0) gMeme.lines[gMeme.selectedLineIdx].y--;
+    var currLine = getCurrLine()
+    if (currLine) currLine.fontType = fontType;
 }
 
 function setFontSize(amount) {
@@ -191,15 +186,13 @@ function calcRecAroundText() {
 
 function saveImg() {
     var imgContent = gCanvas.toDataURL('image/jpeg');
-    saveImgUrl(imgContent)
-}
-
-function saveImgUrl(url) {
     var lastImage = gSavedMemes[gSavedMemes.length - 1];
+
     var newId = (lastImage) ? lastImage.id + 1 : 0;
     gSavedMemes.push({
-        id: newId, url: url, obj: getGMeme()
+        id: newId, url: imgContent, obj: getGMeme()
     })
 
     saveToStorage(SAVE_MEME_KEY, gSavedMemes)
 }
+
