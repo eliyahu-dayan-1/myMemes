@@ -24,15 +24,14 @@ function getIsOnText() {
     return isOnText;
 }
 
-
-
 function getNewLine() {
     var xCord = gCanvas ? gCanvas.width / 2 : 0;
 
     var linesLength = gMeme.lines.length;
-    var yCord = (linesLength === 0) ? gCanvas.height * 0.14 :
-                (linesLength === 1) ? gCanvas.height * 0.8 :
-                gCanvas.height / 2;
+    var yCord = (linesLength > 1)?   gCanvas.height / 2:
+                (linesLength === 0) ? gCanvas.height * 0.14 :
+                (linesLength === 1) ? gCanvas.height * 0.8: undefined;
+            
 
     var widthBody = document.body.offsetWidth;
 
@@ -60,6 +59,21 @@ function getGMeme() {
 function getImageById(id) {
     return gImgs.find(img => img.id === id)
 }
+
+function changeTextLocByKey(ev){
+    console.log(ev)
+    var currLine =  getCurrLine()
+    var moveXTo = (ev.code === "ArrowLeft")? -3:
+                    (ev.code === "ArrowRight")? 3: 0 ;
+
+    var moveYTo = (ev.code === "ArrowUp")? -3:
+    (ev.code === "ArrowDown")? 3: 0 ;
+    currLine.y += moveYTo
+    currLine.x += moveXTo
+    calcRecAroundText()
+}
+
+
 
 function getCurrLine() {
     return gMeme.lines[gMeme.selectedLineIdx];

@@ -27,6 +27,8 @@ function setGElImg(elImg){
 function onKeyDown(ev){
     if([32, 37, 38, 39, 40].indexOf(ev.keyCode) > -1 && getIsOnText()) {
         ev.preventDefault();
+        changeTextLocByKey(ev)
+        _renderCanvas()
     }
 }
 
