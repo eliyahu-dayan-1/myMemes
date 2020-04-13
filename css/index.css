@@ -35,6 +35,10 @@ input{
     cursor: pointer;
 }
 
+img{
+    cursor: pointer;
+}
+
 
 
 /* content */
@@ -96,7 +100,7 @@ nav ul > *:not(:last-child){
 .header-massage{
     padding: 70px 0px;
     background-color: #d3e3fc;
-    color: #ffffff;
+    color: #9db9e5;
     font-size: 50px;
     font-family: lobster;
     text-align: center;
@@ -275,7 +279,7 @@ main{
     text-align: center;
     justify-items: center;
     align-items: center;
-    background-color: #cfd9dc;
+    background-color: #d3e3fc;
     padding: 20px 20px;
     border-radius: 10px;
 }
@@ -352,11 +356,17 @@ main{
 
 .editor img, .editor select{
     border: 0;
-    background-color: white;
+    background-color: #bcd0f0;
     border-radius: 10px;
     width: 50px;
     height: 50px;
     padding: 8px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.editor img:hover, .editor select:hover{
+    box-shadow: 0px 0px 10px -2px rgba(0,0,0,0.75);
 }
 
 

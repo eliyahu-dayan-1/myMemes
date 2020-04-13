@@ -1,9 +1,10 @@
 'use strict';
 
 function onEditSavedMeme(id) {
-    setCurrGMeme(id)
-    closeAndOpenSection(['gallery-open', 'my-memes-open'], 'editor-open')
-    renderCanvas()
+    debugger
+    setCurrGMeme(id);
+    closeAndOpenSection(['gallery-open', 'my-memes-open'], 'editor-open');
+    onImageChoose(getGMeme().selectedImgId)
 }
 
 function onDownloadSavedMeme(elLink, id) {

@@ -121,6 +121,7 @@ function setIsOnText(val) {
 }
 
 function setCurrGMeme(id) {
+    debugger
     var savedMeme = getSavedMemesById(id);
     gMeme = savedMeme.obj;
 }
