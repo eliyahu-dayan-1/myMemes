@@ -3,37 +3,39 @@
 var gIsCklickDown = false;
 var gCanvas;
 var gCtx;
-var gCurrShape = 'pen';
-var gColor = {
-    fill: '#43cb30',
-    outLine: 'black'
-}
-var gCurrLocation = {
-    clickXY: {},
-}
-
-
 var gElTextInput = document.querySelector('#memes-text')
+var gElImg;
+var gIsNewImg;
 
-function init() {
+// DELL
+// var gCurrShape = 'pen';
+
+// var gColor = {
+//     fill: '#43cb30',
+//     outLine: 'black'
+// }
+
+// var gCurrLocation = {
+//     clickXY: {},
+// }
+
+function onOpenMemesEditor() {
+
     gCanvas = document.querySelector('#my-canvas');
     gCtx = gCanvas.getContext('2d');
 
-    window.addEventListener('resize', () => {
-        renderCanvas()
-    })
+    const img = getImageById(getGMeme().selectedImgId)
+    console.log(img)
+    renderCanvas(img)
+
     gCanvas.addEventListener('click', () => {
         if (getIsOnText()) gElTextInput.focus()
-        else{
+        else {
             setIsOnText(false);
             renderCanvas()
         }
     })
-
-    renderGallery(getImgs())
-    renderCanvas()
 }
-
 function onTextChange(elInput) {
     setText(elInput.value);
     setIsOnText(true)
@@ -41,7 +43,7 @@ function onTextChange(elInput) {
 }
 
 function onChangeSize(amount) {
-    changeFontSize(amount)
+    setFontSize(amount)
     renderCanvas()
 }
 
@@ -67,7 +69,7 @@ function onTextUpDown(amount) {
 
 
 function onDelOrAddText(val) {
-    setDelOrAddText(val)
+    delOrAddText(val)
     setIsOnText(true)
     gCanvas.click()
     renderCanvas()
@@ -134,41 +136,34 @@ function renderInputLine() {
     document.querySelector('#memes-text').value = currLine.txt;
 }
 
-function renderCanvas() {
-    var meme = getGMeme();
-    var texts = meme.lines;
-    var img = getImageById(meme.selectedImgId);
+function renderCanvas(img = undefined) {
+    if (gIsNewImg) loadNewImg(img.url)
+    else drawImg(gElImg)
 
-    drawImg(img.url)
+    drawLines()
     renderToolBarOption()
     renderInputLine()
-
-    function drawImg(url) {
-        var img = new Image()
-        img.src = url;
-        img.onload = () => {
-
-            var widthImg = img.width;
-            var heightImg = img.height;
-            var widthBody = document.body.offsetWidth;
-
-            widthImg = (widthBody > 940) ? 500 :
-                (widthBody > 650) ? 400 : 340;
-
-            heightImg = widthImg * (heightImg / img.width)
-
-            gCanvas.width = widthImg;
-            gCanvas.height = heightImg;
+}
 
 
-            gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
+function loadNewImg(url) {
+    gElImg = new Image()
+    gElImg.src = url;
+    gElImg.onload = () => {
 
-            texts.forEach((text) => {
-                drawText(text.txt, text.x, text.y, text.fillColor, text.outlineColor, text.fontType, text.size + "px", text.align)
-            })
-            if (getIsOnText()) drawAroundText()
-        }
+        var widthImg = gElImg.width;
+        var heightImg = gElImg.height;
+        var widthBody = document.body.offsetWidth;
 
+        widthImg = (widthBody > 940) ? 500 :
+            (widthBody > 650) ? 400 : 340;
+
+        heightImg = widthImg * (heightImg / gElImg.width)
+
+        gCanvas.width = widthImg;
+        gCanvas.height = heightImg;
+        drawImg(gElImg)
+        setGIsNewImg(false)
     }
 }
 
@@ -194,17 +189,11 @@ function renderToolBarOption() {
 }
 
 // draw img from local
-function drawImg(url) {
-    var img = new Image()
-    img.src = url;
-    gCanvas.width = img.width;
-    gCanvas.height = img.height;
-    img.onload = () => {
-        gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height) //img,x,y,width,height
-    }
+function drawImg(elimg) {
+    gCtx.drawImage(elimg, 0, 0, gCanvas.width, gCanvas.height) //img,x,y,width,height
 }
 
-function drawText(text, x, y, fill, outLine, font, fontSize, textAlign) {
+function drawLine(text, x, y, fill, outLine, font, fontSize, textAlign) {
     gCtx.lineWidth = '2';
     gCtx.strokeStyle = outLine;
     gCtx.fillStyle = fill;
@@ -213,6 +202,17 @@ function drawText(text, x, y, fill, outLine, font, fontSize, textAlign) {
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
 
+}
+
+function drawLines() {
+    var meme = getGMeme();
+    var texts = meme.lines;
+
+    gCtx.drawImage(gElImg, 0, 0, gCanvas.width, gCanvas.height)
+    texts.forEach((text) => {
+        drawLine(text.txt, text.x, text.y, text.fillColor, text.outlineColor, text.fontType, text.size + "px", text.align)
+    })
+    if (getIsOnText) drawAroundText()
 }
 
 function drawRect(x, y, width, height) {
@@ -230,4 +230,8 @@ function drawRect(x, y, width, height) {
 function downloadImg(elLink) {
     var imgContent = gCanvas.toDataURL('image/jpeg');
     elLink.href = imgContent
+}
+
+function setGIsNewImg(bool) {
+    gIsNewImg = bool
 }

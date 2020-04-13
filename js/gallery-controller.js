@@ -1,9 +1,21 @@
 'use strict';
 
+
+function init() {
+    // window.addEventListener('resize', () => {
+    //     renderCanvas()
+    // })
+
+
+    renderGallery(getImgs())
+}
+
 function onImageChoose(id) {
+    setGIsNewImg(true);
     setImageById(id)
     closeAndOpenSection(['gallery-open', 'my-memes-open'], 'editor-open')
-    renderCanvas()
+    onOpenMemesEditor()
+
 }
 
 function onWordClick(word) {

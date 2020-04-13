@@ -4,21 +4,19 @@ var canvasTouchHandler = new Hammer(document.querySelector('.canvas-container'))
 var editorTouchHandler = new Hammer(document.querySelector('.tool-bar'));
 var headerTouchHandler = new Hammer(document.querySelector('.tool-bar'));
 
-
-
 canvasTouchHandler.on('pan press tap swipe', function (e) {
-    document.querySelector('body').style.touchAction = 'none' ;
+    document.querySelector('body').style.touchAction = 'none';
 });
 
 canvasTouchHandler.on('panstart', function (e) {
-    
+
     if (gCurrLine !== -1 || gCurrSticker !== -1) {
         gIsLinePressed = true;
     }
 });
 
-canvasTouchHandler.on('pan' , function (e) {
-    
+canvasTouchHandler.on('pan', function (e) {
+
     if (!gIsLinePressed) return;
     if (gCurrLine !== -1) {
         gMeme.lines[gCurrLine].posX = e.changedPointers[0].offsetX
@@ -37,8 +35,9 @@ canvasTouchHandler.on('panend', function (e) {
 });
 
 editorTouchHandler.on('pan press tap swipe', function (e) {
-    document.querySelector('body').style.touchAction = 'manipulation' ;
+    document.querySelector('body').style.touchAction = 'manipulation';
 });
+
 headerTouchHandler.on('pan press tap swipe', function (e) {
-    document.querySelector('body').style.touchAction = 'manipulation' ;
+    document.querySelector('body').style.touchAction = 'manipulation';
 });
