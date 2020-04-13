@@ -1,20 +1,22 @@
 'usr strict'
 
-var canvasTouchHandler = new Hammer(document.querySelector('#meme-editor-canvas'));
-var editorTouchHandler = new Hammer(document.querySelector('.editor-wraper'));
-var headerTouchHandler = new Hammer(document.querySelector('.header-container'));
+var canvasTouchHandler = new Hammer(document.querySelector('.canvas-container'));
+var editorTouchHandler = new Hammer(document.querySelector('.tool-bar'));
+var headerTouchHandler = new Hammer(document.querySelector('.tool-bar'));
 
 
 
 canvasTouchHandler.on('pan press tap swipe', function (e) {
     document.querySelector('body').style.touchAction = 'none' ;
 });
+
 canvasTouchHandler.on('panstart', function (e) {
     
     if (gCurrLine !== -1 || gCurrSticker !== -1) {
         gIsLinePressed = true;
     }
 });
+
 canvasTouchHandler.on('pan' , function (e) {
     
     if (!gIsLinePressed) return;
@@ -29,6 +31,7 @@ canvasTouchHandler.on('pan' , function (e) {
         editorImgDrawer(gMeme.imgUrl);
     }
 });
+
 canvasTouchHandler.on('panend', function (e) {
     gIsLinePressed = false;
 });
