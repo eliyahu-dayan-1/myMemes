@@ -177,7 +177,6 @@ function setText(text) {
     if (gMeme.lines[currLineId].txt === 'put your text') text = text.slice(-1);;
 
     gMeme.lines[currLineId].txt = text
-    console.log(gMeme.lines[currLineId])
     calcRecAroundText()
 }
 

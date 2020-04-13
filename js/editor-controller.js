@@ -19,22 +19,20 @@ function init() {
     gCanvas = document.querySelector('#my-canvas');
     gCtx = gCanvas.getContext('2d');
 
+    window.addEventListener('resize', () => {
+        renderCanvas()
+    })
+    gCanvas.addEventListener('click', () => {
+        if (getIsOnText()) gElTextInput.focus()
+        else{
+            setIsOnText(false);
+            renderCanvas()
+        }
+    })
+
     renderGallery(getImgs())
     renderCanvas()
 }
-
-// function resizeCanvas() {
-//     var elContainer = document.querySelector('.canvas-container');
-//     gCanvas.width = elContainer.offsetWidth;
-//     gCanvas.height = elContainer.offsetHeight;
-// }
-
-const canvas = document.querySelector('.canvas-container')
-
-canvas.addEventListener('click', () => {
-  if(getIsOnText) gElTextInput.focus()
-})
-
 
 function onTextChange(elInput) {
     setText(elInput.value);
@@ -71,7 +69,7 @@ function onTextUpDown(amount) {
 function onDelOrAddText(val) {
     setDelOrAddText(val)
     setIsOnText(true)
-    canvas.click()
+    gCanvas.click()
     renderCanvas()
 }
 
@@ -104,8 +102,8 @@ function drawAroundText() {
     drawRect(currLine.leftCorX, currLine.topCorY, currLine.width + 10, currLine.height + 10)
 }
 
-function onChangeImg(){
-    closeAndOpenSection(['my-memes-open','editor-open'], 'gallery-open')
+function onChangeImg() {
+    closeAndOpenSection(['my-memes-open', 'editor-open'], 'gallery-open')
 }
 
 function moveElement(canvasEv) {
@@ -120,11 +118,11 @@ function moveElement(canvasEv) {
         touchLineIndex = idx;
         return isXRange && isYRange;
     })
-    if (!tuchLine){
+    if (!tuchLine) {
         setIsOnText(false)
         renderCanvas()
         return;
-    } 
+    }
     setCurrLineNewCorr(canvasEv, touchLineIndex)
     setIsOnText(true)
     renderCanvas()
@@ -152,23 +150,23 @@ function renderCanvas() {
 
             var widthImg = img.width;
             var heightImg = img.height;
-            var widthBody = document.body.offsetWidth; 
+            var widthBody = document.body.offsetWidth;
 
-            widthImg = (widthBody > 940)? 500:
-                        (widthBody > 650)? 400: 340;
+            widthImg = (widthBody > 940) ? 500 :
+                (widthBody > 650) ? 400 : 340;
 
-            heightImg = widthImg * (heightImg/ img.width)   
+            heightImg = widthImg * (heightImg / img.width)
 
             gCanvas.width = widthImg;
             gCanvas.height = heightImg;
 
-            
-            gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height) 
+
+            gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
 
             texts.forEach((text) => {
                 drawText(text.txt, text.x, text.y, text.fillColor, text.outlineColor, text.fontType, text.size + "px", text.align)
             })
-            if(getIsOnText()) drawAroundText()
+            if (getIsOnText()) drawAroundText()
         }
 
     }
@@ -183,13 +181,13 @@ function renderKeyWord(keyWords = getKeyWords()) {
     }
 }
 
-function renderToolBarOption(){
+function renderToolBarOption() {
     var currLine = getCurrLine();
-    if(!currLine) return;
+    if (!currLine) return;
     var elOutline = document.querySelector('#text-outline')
     var elfillText = document.querySelector('#text-fill')
     var elSelect = document.querySelector('.change-font')
-    
+
     elOutline.value = currLine.outlineColor;
     elfillText.value = currLine.fillColor;
     elSelect.value = currLine.fontType;
