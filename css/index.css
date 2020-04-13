@@ -96,6 +96,7 @@ nav ul > *:not(:last-child){
 .header-massage{
     padding: 70px 0px;
     background-color: #d3e3fc;
+    color: #ffffff;
     font-size: 50px;
     font-family: lobster;
     text-align: center;
