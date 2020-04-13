@@ -63,11 +63,11 @@ function getImageById(id) {
 function changeTextLocByKey(ev){
     console.log(ev)
     var currLine =  getCurrLine()
-    var moveXTo = (ev.code === "ArrowLeft")? -3:
-                    (ev.code === "ArrowRight")? 3: 0 ;
+    var moveXTo = (ev.code === "ArrowLeft")? -5:
+                    (ev.code === "ArrowRight")? 5: 0 ;
 
-    var moveYTo = (ev.code === "ArrowUp")? -3:
-    (ev.code === "ArrowDown")? 3: 0 ;
+    var moveYTo = (ev.code === "ArrowUp")? -5:
+    (ev.code === "ArrowDown")? 5: 0 ;
     currLine.y += moveYTo
     currLine.x += moveXTo
     calcRecAroundText()

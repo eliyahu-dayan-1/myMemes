@@ -48,8 +48,8 @@ input{
 
 /* nav bar */
 nav, footer{
-    background-color: #92c624;
-    color: rgb(240, 229, 229);
+    background-color: #00887a;
+    color: #65b9b4;
 }
 
 nav{
@@ -68,7 +68,7 @@ nav .logo{
 nav ul > *{
     display: flex;
     align-items: center;
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 
 nav ul *{
@@ -95,7 +95,7 @@ nav ul > *:not(:last-child){
 
 .header-massage{
     padding: 70px 0px;
-    background-color: rgb(203, 226, 196);
+    background-color: #d3e3fc;
     font-size: 50px;
     font-family: lobster;
     text-align: center;
@@ -202,8 +202,9 @@ nav ul > *:not(:last-child){
 /* main container */
 
 main{
+    
     flex-grow: 1;
-    background-color: rgb(231, 231, 231);
+    background-color: #eaeefc;
     padding: 25px 30px;
 
 }
@@ -273,7 +274,7 @@ main{
     text-align: center;
     justify-items: center;
     align-items: center;
-    background-color: rgb(224, 220, 220);
+    background-color: #cfd9dc;
     padding: 20px 20px;
     border-radius: 10px;
 }
